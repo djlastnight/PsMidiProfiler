@@ -23,7 +23,10 @@ namespace PsMidiProfiler
             List<PsProfileButton> buttons = new List<PsProfileButton>();
             buttons.AddRange(device.ProfileButtons);
 
-            var invalidBassButtons = buttons.Where(button => button.Name == ButtonName.Bass && button.Note == 0).ToList();
+            // checking bass buttons
+            var invalidBassButtons = buttons.Where(
+                button => button.Name == ButtonName.Bass && button.Note == 0).ToList();
+
             if (invalidBassButtons.Count == 2)
             {
                 return null;
@@ -47,9 +50,39 @@ namespace PsMidiProfiler
                 }
             }
 
+            // checking for not set buttons
             var invalidButtons = buttons.Where(button => button.Note == 0).ToList();
             if (invalidButtons.Count > 0)
             {
+                return null;
+            }
+
+            // checking for note duplications
+            var groups = buttons.GroupBy(
+                button => button.Note,
+                button => button.Name,
+                (note, buttonNames) => new { DuplicatedNote = note, DuplicatedButtons = buttonNames.ToList() });
+
+            var builder = new StringBuilder();
+
+            foreach (var group in groups)
+            {
+                if (group.DuplicatedButtons.Count > 1)
+                {
+                    builder.AppendFormat("-Note {0} is set to multiply buttons:", group.DuplicatedNote);
+                    foreach (var duplicatedButton in group.DuplicatedButtons)
+                    {
+                        builder.AppendFormat(" {0} ", duplicatedButton);
+                    }
+
+                    builder.AppendLine();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(builder.ToString()))
+            {
+                error = "Midi profile creation failed!\r\n\r\n";
+                error += builder.ToString();
                 return null;
             }
 
