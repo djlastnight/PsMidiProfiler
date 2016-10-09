@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0404B6C-A0C6-4F2D-9449-14A5F81E68D0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PsMidiProfiler</RootNamespace>
+    <AssemblyName>PsMidiProfiler</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bass.Net, Version=2.4.12.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Bass.Net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AssemblyLoaders\ManagedAssemblyLoader.cs" />
+    <Compile Include="AssemblyLoaders\UnmanagedAssemblyLoader.cs" />
+    <Compile Include="Behaviors\TextBoxBehavior.cs" />
+    <Compile Include="Controls\RealDrumsMonitor.xaml.cs">
+      <DependentUpon>RealDrumsMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FiveLaneDrumsMonitor.xaml.cs">
+      <DependentUpon>FiveLaneDrumsMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FourLaneDrumsMonitor.xaml.cs">
+      <DependentUpon>FourLaneDrumsMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MonitorButton.xaml.cs">
+      <DependentUpon>MonitorButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NoteDetector.xaml.cs">
+      <DependentUpon>NoteDetector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SevenLaneDrumsMonitor.xaml.cs">
+      <DependentUpon>SevenLaneDrumsMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Convert.cs" />
+    <Compile Include="Enums\ControllerType.cs" />
+    <Compile Include="IControllerMonitor.cs" />
+    <Compile Include="MidiModel.cs" />
+    <Compile Include="NoteDetectedEventArgs.cs" />
+    <Compile Include="NoteDetectedEventHandler.cs" />
+    <Compile Include="ProfileGeneratedEventArgs.cs" />
+    <Compile Include="ProfilePreviewer.xaml.cs">
+      <DependentUpon>ProfilePreviewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PsDeviceSerializer.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Page Include="Controls\RealDrumsMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FiveLaneDrumsMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FourLaneDrumsMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MonitorButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NoteDetector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SevenLaneDrumsMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Enums\ButtonName.cs" />
+    <Compile Include="PsProfileButton.cs" />
+    <Compile Include="PsDevice.cs" />
+    <Compile Include="Enums\DeviceType.cs" />
+    <Compile Include="Enums\Method.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ProfilePreviewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MidiViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\5lane_bass.png" />
+    <Resource Include="Images\5lane_blue.png" />
+    <Resource Include="Images\5lane_green.png" />
+    <Resource Include="Images\5lane_orange.png" />
+    <Resource Include="Images\5lane_red.png" />
+    <Resource Include="Images\5lane_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\4lane_drums.png" />
+    <Resource Include="Images\5lane_drums.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\4lane_bass.png" />
+    <Resource Include="Images\4lane_blue.png" />
+    <Resource Include="Images\4lane_green.png" />
+    <Resource Include="Images\4lane_red.png" />
+    <Resource Include="Images\4lane_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\7lane_bass.png" />
+    <Resource Include="Images\7lane_blue_cymbal.png" />
+    <Resource Include="Images\7lane_blue_tom.png" />
+    <Resource Include="Images\7lane_drums.png" />
+    <Resource Include="Images\7lane_green_cymbal.png" />
+    <Resource Include="Images\7lane_green_tom.png" />
+    <Resource Include="Images\7lane_red.png" />
+    <Resource Include="Images\7lane_yellow_cymbal.png" />
+    <Resource Include="Images\7lane_yellow_tom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\real_drums.png" />
+    <Resource Include="Images\real_drums_bass.png" />
+    <Resource Include="Images\real_drums_blue.png" />
+    <Resource Include="Images\real_drums_blue_tom.png" />
+    <Resource Include="Images\real_drums_green.png" />
+    <Resource Include="Images\real_drums_green_tom.png" />
+    <Resource Include="Images\real_drums_red.png" />
+    <Resource Include="Images\real_drums_rim.png" />
+    <Resource Include="Images\real_drums_yellow_c.png" />
+    <Resource Include="Images\real_drums_yellow_o.png" />
+    <Resource Include="Images\real_drums_yellow_p.png" />
+    <Resource Include="Images\real_drums_yellow_s.png" />
+    <Resource Include="Images\real_drums_yellow_tom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Lib\bass.dll" />
+    <EmbeddedResource Include="Lib\Bass.Net.dll" />
+    <Resource Include="Lib\Bass.Net.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

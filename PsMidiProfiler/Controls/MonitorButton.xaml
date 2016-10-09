@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="PsMidiProfiler.Controls.MonitorButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             x:Name="uc"
+             Width="300"
+             Height="35"
+             d:DesignHeight="25" d:DesignWidth="120">
+    <Border CornerRadius="5,5,5,5" BorderBrush="Black" BorderThickness="0.5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="65"/>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="34"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Button Name" TextAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="LightGray" />
+            <TextBlock Text="{Binding ElementName=uc, Path=ProfileButton.Name, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Text="Note" Grid.Column="1" Grid.Row="0" TextAlignment="Center" Foreground="LightGray"/>
+            <TextBlock Text="{Binding ElementName=uc, Path=ProfileButton.Note}" TextAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+            <TextBlock Text="Channel" Grid.Column="2" Grid.Row="0" TextAlignment="Center" Foreground="LightGray" />
+            <TextBlock Text="{Binding ElementName=uc, Path=ProfileButton.Channel}" TextAlignment="Center" Grid.Column="2" Grid.Row="1" />
+            <Button Grid.Column="3" Grid.Row="0" Content="Detect" ToolTip="Detect Note" Grid.RowSpan="2" Margin="5" Click="DetectNoteClicked"/>
+            <Button Grid.Column="4" Grid.Row="0" Content="c" ToolTip="Clear" Grid.RowSpan="2" Margin="5" Click="ClearClicked" />
+        </Grid>
+    </Border>
+
+</UserControl>
