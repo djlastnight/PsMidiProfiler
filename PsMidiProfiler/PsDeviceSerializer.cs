@@ -38,7 +38,7 @@ namespace PsMidiProfiler
             {
                 var bass1 = bassButtons[0];
                 var bass2 = bassButtons[1];
-                bass2.NoteOffValue = 1;
+
                 if (bass1.Note == bass2.Note &&
                     bass1.Channel == bass2.Channel)
                 {
