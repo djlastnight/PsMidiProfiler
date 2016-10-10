@@ -9,6 +9,6 @@ namespace PsMidiProfiler.Enums
     {
         Normal = 1,
         SysEx = 2,
-        CCSharp4 = 3,
+        CC4HiHat = 3,
     }
 }

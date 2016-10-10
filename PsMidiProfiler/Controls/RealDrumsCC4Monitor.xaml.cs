@@ -2,54 +2,55 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Controls;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PsMidiProfiler.Controls
 {
     /// <summary>
-    /// Interaction logic for AdvancedDrumsMonitor.xaml
+    /// Interaction logic for RealDrumsCC4Monitor.xaml
     /// </summary>
-    public partial class RealDrumsMonitor : UserControl, IControllerMonitor, INotifyPropertyChanged
+    public partial class RealDrumsCC4Monitor : UserControl, IControllerMonitor, INotifyPropertyChanged, ICC4HiHatPedalMonitor
     {
         private PsDevice device;
 
         private List<MonitorButton> monitorButtons;
 
+        private byte hiHatPedalVelocity;
+
         private Visibility redVisibility;
 
         private Visibility rimVisibility;
-        
+
         private Visibility yellowClosedVisibility;
-        
+
         private Visibility yellowOpenVisibility;
-        
+
         private Visibility yellowPedalVisibility;
-        
+
         private Visibility yellowSizzleVisibility;
-        
+
         private Visibility yellowTomVisibility;
-        
+
         private Visibility blueVisibility;
-        
+
         private Visibility blueTomVisibility;
-        
+
         private Visibility greenVisibility;
-        
+
         private Visibility greenTomVisibility;
-        
+
         private Visibility bassVisibility;
 
-        public RealDrumsMonitor()
+        public RealDrumsCC4Monitor()
         {
             InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
             buttons.Add(ButtonName.Rim);
-            buttons.Add(ButtonName.Yellow_C);
-            buttons.Add(ButtonName.Yellow_O);
-            buttons.Add(ButtonName.Yellow_P);
-            buttons.Add(ButtonName.Yellow_S);
+            buttons.Add(ButtonName.Yellow);
             buttons.Add(ButtonName.Yellow_Tom);
             buttons.Add(ButtonName.Blue);
             buttons.Add(ButtonName.Blue_Tom);
@@ -58,7 +59,8 @@ namespace PsMidiProfiler.Controls
             buttons.Add(ButtonName.Bass);
             buttons.Add(ButtonName.Bass);
 
-            this.device = new PsDevice("Real Drums Midi Profile", DeviceType.DrumsReal);
+            this.device = new PsDevice("Real Drums CC#4 Midi Profile", DeviceType.DrumsReal);
+            this.device.Method = (int)Method.CC4HiHat;
             this.device.ProfileButtons = new List<PsProfileButton>();
             this.monitorButtons = new List<MonitorButton>();
 
@@ -89,7 +91,7 @@ namespace PsMidiProfiler.Controls
 
         public ControllerType ControllerType
         {
-            get { return Enums.ControllerType.RealDrums; }
+            get { return ControllerType.RealDrums; }
         }
 
         public PsDevice Device
@@ -100,6 +102,30 @@ namespace PsMidiProfiler.Controls
         public IEnumerable<MonitorButton> MonitorButtons
         {
             get { return this.monitorButtons; }
+        }
+
+        public byte HiHatPedalVelocity
+        {
+            get
+            {
+                return this.hiHatPedalVelocity;
+            }
+            set
+            {
+                this.hiHatPedalVelocity = value;
+                this.OnPropertyChanged("HiHatPedalVelocity");
+
+                if (value == 127 && this.yellowClosedVisibility != Visibility.Visible)
+                {
+                    // Hightligthing the closed hi-hat for a short time
+                    var task = Task.Run(async delegate
+                    {
+                        this.YellowClosedVisibility = Visibility.Visible;
+                        await Task.Delay(MidiViewModel.UnhighlightDelayInMilliseconds);
+                        this.YellowClosedVisibility = Visibility.Hidden;
+                    }); 
+                }
+            }
         }
 
         public Visibility RedVisibility
@@ -272,22 +298,6 @@ namespace PsMidiProfiler.Controls
             {
                 this.RimVisibility = result;
             }
-            else if (button == ButtonName.Yellow_C)
-            {
-                this.YellowClosedVisibility = result;
-            }
-            else if (button == ButtonName.Yellow_O)
-            {
-                this.YellowOpenVisibility = result;
-            }
-            else if (button == ButtonName.Yellow_P)
-            {
-                this.YellowPedalVisibility = result;
-            }
-            else if (button == ButtonName.Yellow_S)
-            {
-                this.YellowSizzleVisibility = result;
-            }
             else if (button == ButtonName.Yellow_Tom)
             {
                 this.YellowTomVisibility = result;
@@ -311,6 +321,40 @@ namespace PsMidiProfiler.Controls
             else if (button == ButtonName.Bass)
             {
                 this.BassVisibility = result;
+            }
+            else if (button == ButtonName.Yellow)
+            {
+                var hiHatState = this.GetHiHatState(this.HiHatPedalVelocity);
+                switch (hiHatState)
+                {
+                    case HiHatState.Closed:
+                        this.YellowClosedVisibility = result;
+                        break;
+                    case HiHatState.HalfClosed:
+                        this.YellowSizzleVisibility = result;
+                        break;
+                    case HiHatState.Opened:
+                        this.YellowOpenVisibility = result;
+                        break;
+                    default:
+                        throw new NotImplementedException("Not implemented HiHatState: " + hiHatState);
+                }
+            }
+        }
+
+        private HiHatState GetHiHatState(byte velocity)
+        {
+            if (velocity >= 120)
+            {
+                return HiHatState.Closed;
+            }
+            else if (velocity >= 80)
+            {
+                return HiHatState.HalfClosed;
+            }
+            else
+            {
+                return HiHatState.Opened;
             }
         }
 

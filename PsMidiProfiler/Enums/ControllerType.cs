@@ -5,6 +5,7 @@
         FourLaneDrums,
         FiveLaneDrums,
         SevenLaneDrums,
-        RealDrums
+        RealDrums,
+        RealDrumsCC4
     }
 }

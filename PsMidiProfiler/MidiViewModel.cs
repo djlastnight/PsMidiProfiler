@@ -15,7 +15,7 @@ namespace PsMidiProfiler
 {
     public class MidiViewModel : INotifyPropertyChanged
     {
-        private const int UnhighlightDelayInMilliseconds = 150;
+        public const int UnhighlightDelayInMilliseconds = 150;
 
         private MidiModel midi;
 
@@ -117,6 +117,9 @@ namespace PsMidiProfiler
                     case ControllerType.RealDrums:
                         this.controllerMonitor = new RealDrumsMonitor();
                         break;
+                    case ControllerType.RealDrumsCC4:
+                        this.controllerMonitor = new RealDrumsCC4Monitor();
+                        break;
                     case ControllerType.SevenLaneDrums:
                         this.controllerMonitor = new SevenLaneDrumsMonitor();
                         break;
@@ -155,28 +158,6 @@ namespace PsMidiProfiler
                     true,
                     false
                 };
-            }
-        }
-
-        public IEnumerable<Method> Methods
-        {
-            get
-            {
-                return Enum.GetValues(typeof(Method)).Cast<Method>();
-            }
-        }
-
-        public Method CurrentMethod
-        {
-            get
-            {
-                return this.currentMethod;
-            }
-            set
-            {
-                this.currentMethod = value;
-                this.controllerMonitor.Device.Method = (int)value;
-                this.OnPropertyChanged("CurrentMethod");
             }
         }
 
@@ -240,6 +221,21 @@ namespace PsMidiProfiler
             this.OnPropertyChanged("NoteHistory");
             if (e.IsShortMessage)
             {
+                byte controller = e.ShortMessage.Controller;
+                byte velocity = e.ShortMessage.Velocity;
+                bool isMSB = controller == 4;
+                bool isLSB = controller == 36;
+
+                if (this.controllerMonitor is ICC4HiHatPedalMonitor)
+                {
+                    if (isMSB || (isLSB && velocity == 0))
+                    {
+                        var pedalMonitor = this.controllerMonitor as ICC4HiHatPedalMonitor;
+                        pedalMonitor.HiHatPedalVelocity = velocity;
+                        return;
+                    }
+                }
+
                 var buttons = this.ControllerMonitor.MonitorButtons.Where(
                     button => button.ProfileButton.Note == e.ShortMessage.Note &&
                     button.ProfileButton.Channel == e.ShortMessage.Channel);

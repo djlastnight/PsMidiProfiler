@@ -67,6 +67,11 @@
     <Compile Include="AssemblyLoaders\ManagedAssemblyLoader.cs" />
     <Compile Include="AssemblyLoaders\UnmanagedAssemblyLoader.cs" />
     <Compile Include="Behaviors\TextBoxBehavior.cs" />
+    <Compile Include="Enums\HiHatState.cs" />
+    <Compile Include="ICC4HiHatPedalMonitor.cs" />
+    <Compile Include="Controls\RealDrumsCC4Monitor.xaml.cs">
+      <DependentUpon>RealDrumsCC4Monitor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RealDrumsMonitor.xaml.cs">
       <DependentUpon>RealDrumsMonitor.xaml</DependentUpon>
     </Compile>
@@ -97,6 +102,10 @@
     </Compile>
     <Compile Include="PsDeviceSerializer.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Page Include="Controls\RealDrumsCC4Monitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RealDrumsMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -221,6 +230,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\gridLines.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

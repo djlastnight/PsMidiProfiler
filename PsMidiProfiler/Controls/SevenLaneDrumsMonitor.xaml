@@ -6,25 +6,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
-    <Grid>
-        <Image Source="/Images/7lane_drums.png" Width="200" HorizontalAlignment="Left"/>
-        <Image Source="/Images/7lane_red.png" Width="200" HorizontalAlignment="Left"
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Image Source="/Images/7lane_drums.png" HorizontalAlignment="Left"/>
+                <Image Source="/Images/7lane_red.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=RedVisibility}" />
-        <Image Source="/Images/7lane_yellow_tom.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_yellow_tom.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=YellowTomVisibility}" />
-        <Image Source="/Images/7lane_blue_tom.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_blue_tom.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=BlueTomVisibility}" />
-        <Image Source="/Images/7lane_green_tom.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_green_tom.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=GreenTomVisibility}" />
-        <Image Source="/Images/7lane_yellow_cymbal.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_yellow_cymbal.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=YellowCymbalVisibility}" />
-        <Image Source="/Images/7lane_green_cymbal.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_green_cymbal.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=GreenCymbalVisibility}" />
-        <Image Source="/Images/7lane_blue_cymbal.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_blue_cymbal.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=BlueCymbalVisibility}" />
-        <Image Source="/Images/7lane_bass.png" Width="200" HorizontalAlignment="Left"
+                <Image Source="/Images/7lane_bass.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=BassVisibility}" />
-        <ItemsControl HorizontalAlignment="Left" VerticalAlignment="Center" Margin="220,0,0,0"
-                    ItemsSource="{Binding ElementName=uc, Path=MonitorButtons}"/>
-    </Grid>
+            </Grid>
+
+            <ItemsControl Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                          ItemsSource="{Binding ElementName=uc, Path=MonitorButtons}"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
