@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Security.Cryptography;
-
-namespace PsMidiProfiler.AssemblyLoaders
+﻿namespace PsMidiProfiler.AssemblyLoaders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Security.Cryptography;
+
     public static class ManagedAssemblyLoader
     {
         private static Dictionary<string, Assembly> dic = null;
@@ -13,7 +13,9 @@ namespace PsMidiProfiler.AssemblyLoaders
         public static void Load(string embeddedResource, string fileName)
         {
             if (dic == null)
+            {
                 dic = new Dictionary<string, Assembly>();
+            }
 
             byte[] ba = null;
             Assembly asm = null;
@@ -23,7 +25,9 @@ namespace PsMidiProfiler.AssemblyLoaders
             {
                 // Either the file is not existed or it is not mark as embedded resource
                 if (stm == null)
+                {
                     throw new Exception(embeddedResource + " is not found in Embedded Resources.");
+                }
 
                 // Get byte[] from the file from embedded resource
                 ba = new byte[(int)stm.Length];
@@ -45,11 +49,11 @@ namespace PsMidiProfiler.AssemblyLoaders
             }
 
             bool fileOk = false;
-            string tempFile = "";
+            string tempFile = string.Empty;
 
             using (SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider())
             {
-                string fileHash = BitConverter.ToString(sha1.ComputeHash(ba)).Replace("-", string.Empty); ;
+                string fileHash = BitConverter.ToString(sha1.ComputeHash(ba)).Replace("-", string.Empty);
 
                 tempFile = Path.GetTempPath() + fileName;
 
@@ -86,10 +90,14 @@ namespace PsMidiProfiler.AssemblyLoaders
         public static Assembly Get(string assemblyFullName)
         {
             if (dic == null || dic.Count == 0)
+            {
                 return null;
+            }
 
             if (dic.ContainsKey(assemblyFullName))
+            {
                 return dic[assemblyFullName];
+            }
 
             return null;
         }

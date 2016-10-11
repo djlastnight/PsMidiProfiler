@@ -1,25 +1,21 @@
-﻿using PsMidiProfiler.Enums;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System;
+    using System.Xml.Serialization;
+    using PsMidiProfiler.Enums;
+
     public class PsProfileButton : IXmlSerializable
     {
-        private PsProfileButton()
-        {
-        }
-
         public PsProfileButton(ButtonName name, int note, int channel, int noteOffValue)
         {
             this.Name = name;
             this.Note = note;
             this.Channel = channel;
             this.NoteOffValue = noteOffValue;
+        }
+
+        private PsProfileButton()
+        {
         }
 
         public ButtonName Name { get; set; }
@@ -47,13 +43,6 @@ namespace PsMidiProfiler
         public void ReadXml(System.Xml.XmlReader reader)
         {
             throw new NotImplementedException();
-
-            //var content = reader.ReadElementContentAsString();
-            //string[] tokens = content.Split(new char[] { ',' });
-
-            //this.Note = int.Parse(tokens[0]);
-            //this.Channel = int.Parse(tokens[1]);
-            //this.NoteOffValue = int.Parse(tokens[2]);
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)

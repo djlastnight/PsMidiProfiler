@@ -66,7 +66,10 @@
     </ApplicationDefinition>
     <Compile Include="AssemblyLoaders\ManagedAssemblyLoader.cs" />
     <Compile Include="AssemblyLoaders\UnmanagedAssemblyLoader.cs" />
-    <Compile Include="Behaviors\TextBoxBehavior.cs" />
+    <Compile Include="Behaviors\Capture.cs" />
+    <Compile Include="Behaviors\TextBoxBehavior.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Enums\HiHatState.cs" />
     <Compile Include="ICC4HiHatPedalMonitor.cs" />
     <Compile Include="Controls\RealDrumsCC4Monitor.xaml.cs">
@@ -156,6 +159,7 @@
     <Compile Include="MidiViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

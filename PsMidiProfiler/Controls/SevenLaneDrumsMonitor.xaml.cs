@@ -1,11 +1,11 @@
-﻿using PsMidiProfiler.Enums;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace PsMidiProfiler.Controls
+﻿namespace PsMidiProfiler.Controls
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using PsMidiProfiler.Enums;
+
     /// <summary>
     /// Interaction logic for RealDrumsMonitor.xaml
     /// </summary>
@@ -33,7 +33,7 @@ namespace PsMidiProfiler.Controls
 
         public SevenLaneDrumsMonitor()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
             buttons.Add(ButtonName.Yellow_Tom);
@@ -70,6 +70,8 @@ namespace PsMidiProfiler.Controls
             this.BassVisibility = Visibility.Hidden;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Enums.ControllerType ControllerType
         {
             get { return Enums.ControllerType.SevenLaneDrums; }
@@ -85,13 +87,13 @@ namespace PsMidiProfiler.Controls
             get { return this.monitorButtons; }
         }
 
-
         public Visibility RedVisibility
         {
             get
             {
                 return this.redVisibility;
             }
+
             set
             {
                 this.redVisibility = value;
@@ -105,6 +107,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.yellowTomVisibility;
             }
+
             set
             {
                 this.yellowTomVisibility = value;
@@ -118,6 +121,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.blueTomVisibility;
             }
+
             set
             {
                 this.blueTomVisibility = value;
@@ -131,6 +135,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.greenTomVisibility;
             }
+
             set
             {
                 this.greenTomVisibility = value;
@@ -144,6 +149,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.yellowCymbalVisibility;
             }
+
             set
             {
                 this.yellowCymbalVisibility = value;
@@ -157,6 +163,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.greenCymbalVisibility;
             }
+
             set
             {
                 this.greenCymbalVisibility = value;
@@ -170,6 +177,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.blueCymbalVisibility;
             }
+
             set
             {
                 this.blueCymbalVisibility = value;
@@ -183,14 +191,13 @@ namespace PsMidiProfiler.Controls
             {
                 return this.bassVisibility;
             }
+
             set
             {
                 this.bassVisibility = value;
                 this.OnPropertyChanged("BassVisibility");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Highlight(ButtonName button, bool value)
         {

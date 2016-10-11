@@ -1,10 +1,10 @@
-﻿using PsMidiProfiler.Commands;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Input;
+    using PsMidiProfiler.Commands;
+
     /// <summary>
     /// Interaction logic for ProfilePreviewer.xaml
     /// </summary>
@@ -22,8 +22,10 @@ namespace PsMidiProfiler
 
         private ProfilePreviewer()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string ProfileText
         {
@@ -31,6 +33,7 @@ namespace PsMidiProfiler
             {
                 return this.profileText;
             }
+
             set
             {
                 this.profileText = value;
@@ -50,8 +53,6 @@ namespace PsMidiProfiler
                 return this.copyToClipboardCommand;
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {

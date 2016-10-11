@@ -1,12 +1,12 @@
-﻿using radio42.Multimedia.Midi;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using radio42.Multimedia.Midi;
+
     public class MidiModel
     {
         private readonly bool autoClearHistory;
@@ -35,14 +35,7 @@ namespace PsMidiProfiler
             this.RefreshDevices();
         }
 
-        private string GetAssemblyVersion()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            string version = fvi.FileVersion;
-
-            return version;
-        }
+        public event MidiMessageEventHandler MessageReceived;
 
         public IEnumerable<string> MidiInDevices
         {
@@ -76,8 +69,6 @@ namespace PsMidiProfiler
             }
         }
 
-        public event MidiMessageEventHandler MessageReceived;
-
         public void RefreshDevices()
         {
             if (MidiInputDevice.GetDeviceCount() == 0)
@@ -110,7 +101,7 @@ namespace PsMidiProfiler
             this.midiIn = new MidiInputDevice(index);
             this.midiIn.AutoPairController = true;
             this.midiIn.MessageFilter = MIDIMessageType.SystemRealtime | MIDIMessageType.SystemExclusive;
-            this.midiIn.MessageReceived += OnMidiMessageReceived;
+            this.midiIn.MessageReceived += this.OnMidiMessageReceived;
 
             string error = null;
             if (this.midiIn.Open())
@@ -193,6 +184,15 @@ namespace PsMidiProfiler
 
                 this.noteHistory.AppendLine(message);
             }
+        }
+
+        private string GetAssemblyVersion()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+
+            return version;
         }
     }
 }

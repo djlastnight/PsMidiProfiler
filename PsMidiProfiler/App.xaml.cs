@@ -1,14 +1,10 @@
-﻿using PsMidiProfiler.AssemblyLoaders;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System;
+    using System.Reflection;
+    using System.Windows;
+    using PsMidiProfiler.AssemblyLoaders;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -19,7 +15,6 @@ namespace PsMidiProfiler
             AppDomain.CurrentDomain.AssemblyResolve += this.OnAssemblyResolve;
             this.LoadAssemblies();
         }
-
 
         private Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
         {

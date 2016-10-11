@@ -1,11 +1,11 @@
-﻿using PsMidiProfiler.Enums;
-using radio42.Multimedia.Midi;
-using System;
-using System.ComponentModel;
-using System.Windows;
-
-namespace PsMidiProfiler.Controls
+﻿namespace PsMidiProfiler.Controls
 {
+    using System;
+    using System.ComponentModel;
+    using System.Windows;
+    using PsMidiProfiler.Enums;
+    using radio42.Multimedia.Midi;
+
     /// <summary>
     /// Interaction logic for NoteWaiter.xaml
     /// </summary>
@@ -23,19 +23,23 @@ namespace PsMidiProfiler.Controls
 
         private string status;
 
-        private NoteDetector()
-        {
-            InitializeComponent();
-        }
-
         public NoteDetector(MidiViewModel midiViewModel, ButtonName buttonName)
             : this()
         {
             this.MidiViewModel = midiViewModel;
-            this.midiViewModel.MidiModel.MessageReceived += MidiMessageReceived;
+            this.midiViewModel.MidiModel.MessageReceived += this.MidiMessageReceived;
             this.ButtonName = buttonName;
             this.Status = "Waiting for midi note on event";
         }
+
+        private NoteDetector()
+        {
+            this.InitializeComponent();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public event NoteDetectedEventHandler NoteDetected;
 
         public MidiViewModel MidiViewModel
         {
@@ -57,6 +61,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.buttonName;
             }
+
             set
             {
                 this.buttonName = value;
@@ -70,16 +75,13 @@ namespace PsMidiProfiler.Controls
             {
                 return this.status;
             }
+
             set
             {
                 this.status = value;
                 this.OnPropertyChanged("Status");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event NoteDetectedEventHandler NoteDetected;
 
         private void MidiMessageReceived(object sender, MidiMessageEventArgs e)
         {

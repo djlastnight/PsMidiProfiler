@@ -1,11 +1,11 @@
-﻿using PsMidiProfiler.Enums;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace PsMidiProfiler.Controls
+﻿namespace PsMidiProfiler.Controls
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using PsMidiProfiler.Enums;
+
     /// <summary>
     /// Interaction logic for FiveLaneDrumsMonitor.xaml
     /// </summary>
@@ -29,7 +29,7 @@ namespace PsMidiProfiler.Controls
 
         public FiveLaneDrumsMonitor()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
             buttons.Add(ButtonName.Yellow);
@@ -62,6 +62,8 @@ namespace PsMidiProfiler.Controls
             this.BassVisibility = Visibility.Hidden;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ControllerType ControllerType
         {
             get { return ControllerType.FiveLaneDrums; }
@@ -83,6 +85,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.redVisibility;
             }
+
             set
             {
                 this.redVisibility = value;
@@ -96,6 +99,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.yellowVisibility;
             }
+
             set
             {
                 this.yellowVisibility = value;
@@ -123,6 +127,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.orangeVisibility;
             }
+
             set
             {
                 this.orangeVisibility = value;
@@ -136,6 +141,7 @@ namespace PsMidiProfiler.Controls
             {
                 return this.greenVisibility;
             }
+
             set
             {
                 this.greenVisibility = value;
@@ -149,14 +155,13 @@ namespace PsMidiProfiler.Controls
             {
                 return this.bassVisibility;
             }
+
             set
             {
                 this.bassVisibility = value;
                 this.OnPropertyChanged("BassVisibility");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Highlight(ButtonName button, bool value)
         {

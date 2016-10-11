@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PsMidiProfiler.Enums
+﻿namespace PsMidiProfiler.Enums
 {
     public enum ButtonName
     {

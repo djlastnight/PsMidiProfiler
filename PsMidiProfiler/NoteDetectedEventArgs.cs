@@ -1,14 +1,10 @@
-﻿using radio42.Multimedia.Midi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System;
+
     public class NoteDetectedEventArgs : EventArgs
     {
-        public  NoteDetectedEventArgs(int detectedNote, int channel, int noteOffValue)
+        public NoteDetectedEventArgs(int detectedNote, int channel, int noteOffValue)
         {
             this.DetectedNote = detectedNote;
             this.Channel = channel;

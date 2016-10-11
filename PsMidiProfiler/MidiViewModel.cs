@@ -1,18 +1,16 @@
-﻿using PsMidiProfiler.Commands;
-using PsMidiProfiler.Controls;
-using PsMidiProfiler.Enums;
-using radio42.Multimedia.Midi;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
-using System.Windows.Input;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+    using PsMidiProfiler.Commands;
+    using PsMidiProfiler.Controls;
+    using PsMidiProfiler.Enums;
+    using radio42.Multimedia.Midi;
+
     public class MidiViewModel : INotifyPropertyChanged
     {
         public const int UnhighlightDelayInMilliseconds = 150;
@@ -34,10 +32,14 @@ namespace PsMidiProfiler
         public MidiViewModel()
         {
             this.midi = new MidiModel();
-            this.midi.MessageReceived += midi_MessageReceived;
+            this.midi.MessageReceived += this.OnMidiMessageReceived;
             this.CurrentControllerType = ControllerType.FourLaneDrums;
             this.WaitForNoteOff = true;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler<ProfileGeneratedEventArgs> ProfileGenerated;
 
         public MidiModel MidiModel
         {
@@ -82,6 +84,7 @@ namespace PsMidiProfiler
             {
                 return this.controllerMonitor;
             }
+
             private set
             {
                 this.controllerMonitor = value;
@@ -103,6 +106,7 @@ namespace PsMidiProfiler
             {
                 return this.currentControllerType;
             }
+
             set
             {
                 this.currentControllerType = value;
@@ -142,6 +146,7 @@ namespace PsMidiProfiler
             {
                 return this.waitForNoteOff;
             }
+
             set
             {
                 this.waitForNoteOff = value;
@@ -188,10 +193,6 @@ namespace PsMidiProfiler
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event EventHandler<ProfileGeneratedEventArgs> ProfileGenerated;
-
         private void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -216,7 +217,7 @@ namespace PsMidiProfiler
             }
         }
 
-        private void midi_MessageReceived(object sender, MidiMessageEventArgs e)
+        private void OnMidiMessageReceived(object sender, MidiMessageEventArgs e)
         {
             this.OnPropertyChanged("NoteHistory");
             if (e.IsShortMessage)
@@ -260,7 +261,7 @@ namespace PsMidiProfiler
             }
         }
 
-        void OnMonitorButtonCleared(object sender, EventArgs e)
+        private void OnMonitorButtonCleared(object sender, EventArgs e)
         {
             var button = sender as MonitorButton;
             if (button != null)

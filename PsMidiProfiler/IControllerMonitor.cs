@@ -1,13 +1,9 @@
-﻿using PsMidiProfiler.Controls;
-using PsMidiProfiler.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System.Collections.Generic;
+    using PsMidiProfiler.Controls;
+    using PsMidiProfiler.Enums;
+
     public interface IControllerMonitor
     {
         ControllerType ControllerType { get; }

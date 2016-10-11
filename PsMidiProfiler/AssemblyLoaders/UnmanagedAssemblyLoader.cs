@@ -1,15 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-namespace PsMidiProfiler.AssemblyLoaders
+﻿namespace PsMidiProfiler.AssemblyLoaders
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+
     public static class UnmanagedAssemblyLoader
     {
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr LoadLibrary(string dllToLoad);
-
         public static string Load(Assembly assembly, string appName, string libraryResourceName, string libraryName)
         {
             string tempDir = Path.Combine(Path.GetTempPath(), appName);
@@ -33,5 +30,8 @@ namespace PsMidiProfiler.AssemblyLoaders
             UnmanagedAssemblyLoader.LoadLibrary(libraryName);
             return tempDllPath;
         }
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr LoadLibrary(string dllToLoad);
     }
 }

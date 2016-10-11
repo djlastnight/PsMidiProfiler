@@ -1,5 +1,4 @@
-﻿
-namespace PsMidiProfiler.Enums
+﻿namespace PsMidiProfiler.Enums
 {
     public enum HiHatState
     {

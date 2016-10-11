@@ -1,10 +1,10 @@
-﻿using PsMidiProfiler.Enums;
-using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+    using PsMidiProfiler.Enums;
+
     [Serializable]
     [XmlRoot("DEVICE")]
     public class PsDevice
@@ -19,7 +19,7 @@ namespace PsMidiProfiler
         }
 
         public PsDevice(string name, DeviceType type)
-            :this()
+            : this()
         {
             this.Name = name;
             this.Type = (int)type;

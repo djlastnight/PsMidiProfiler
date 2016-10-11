@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace PsMidiProfiler.Controls
+﻿namespace PsMidiProfiler.Controls
 {
+    using System;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for MonitorButton.xaml
     /// </summary>
@@ -14,14 +14,18 @@ namespace PsMidiProfiler.Controls
 
         public MonitorButton()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public MonitorButton(PsProfileButton profileButton)
-            :this()
+            : this()
         {
             this.ProfileButton = profileButton;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler Cleared;
 
         public PsProfileButton ProfileButton
         {
@@ -29,16 +33,13 @@ namespace PsMidiProfiler.Controls
             {
                 return this.profileButton;
             }
+
             set
             {
                 this.profileButton = value;
                 this.OnPropertyChanged("ProfileButton");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event EventHandler Cleared;
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -75,7 +76,7 @@ namespace PsMidiProfiler.Controls
             this.profileButton.Note = 0;
             this.profileButton.Channel = 0;
             this.profileButton.NoteOffValue = 0;
-            this.ProfileButton = profileButton;
+            this.ProfileButton = this.profileButton;
 
             if (this.Cleared != null)
             {

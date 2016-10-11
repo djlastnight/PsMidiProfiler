@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-namespace PsMidiProfiler.Commands
+﻿namespace PsMidiProfiler.Commands
 {
+    using System;
+    using System.Windows.Input;
+
     public class RelayCommand : ICommand
     {
-        readonly Action<object> _execute;
-        readonly Predicate<object> _canExecute;
+        private readonly Action<object> execute;
 
+        private readonly Predicate<object> canExecute;
 
         public RelayCommand(Action<object> execute)
             : this(execute, null)
@@ -21,15 +17,12 @@ namespace PsMidiProfiler.Commands
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             if (execute == null)
+            {
                 throw new ArgumentNullException("execute");
+            }
 
-            _execute = execute;
-            _canExecute = canExecute;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute == null ? true : _canExecute(parameter);
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
         public event EventHandler CanExecuteChanged
@@ -38,9 +31,14 @@ namespace PsMidiProfiler.Commands
             remove { CommandManager.RequerySuggested -= value; }
         }
 
+        public bool CanExecute(object parameter)
+        {
+            return this.canExecute == null ? true : this.canExecute(parameter);
+        }
+
         public void Execute(object parameter)
         {
-            _execute(parameter);
+            this.execute(parameter);
         }
     }
 }

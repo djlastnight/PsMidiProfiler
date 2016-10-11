@@ -1,14 +1,13 @@
-﻿using PsMidiProfiler.Enums;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Windows;
-using System.Xml;
-using System.Xml.Serialization;
-using System.Linq;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Xml;
+    using System.Xml.Serialization;
+    using PsMidiProfiler.Enums;
+
     public static class PsDeviceSerializer
     {
         public static string Serialize(PsDevice device, out string error)
@@ -108,8 +107,8 @@ namespace PsMidiProfiler
                 serializer.Serialize(writer, deviceToSerialize);
             }
 
-            string nsDef = " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"";
-            sb.Replace(nsDef, string.Empty);
+            string namespaceDefinition = " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"";
+            sb.Replace(namespaceDefinition, string.Empty);
             sb.Replace("<ProfileButton>", string.Empty);
             sb.Replace("</ProfileButton>", string.Empty);
             var formatted = PsDeviceSerializer.AutoFormatXml(sb.ToString());
@@ -123,13 +122,12 @@ namespace PsMidiProfiler
             StringBuilder output = new StringBuilder();
             XmlReaderSettings xSettings = new XmlReaderSettings();
             xSettings.ConformanceLevel = ConformanceLevel.Fragment;
-            // Create an XmlReader
+
             using (XmlReader reader = XmlReader.Create(new StringReader(xmlText), xSettings))
             {
                 XmlWriterSettings ws = new XmlWriterSettings();
                 ws.Indent = true;
                 ws.IndentChars = "\t";
-                //ws.CheckCharacters = true;
                 ws.ConformanceLevel = ConformanceLevel.Fragment;
                 using (XmlWriter writer = XmlWriter.Create(output, ws))
                 {

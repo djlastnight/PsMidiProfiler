@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace PsMidiProfiler.Behaviors
+﻿namespace PsMidiProfiler.Behaviors
 {
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+
     public class TextBoxBehavior
     {
-        static readonly Dictionary<TextBox, Capture> _associations = new Dictionary<TextBox, Capture>();
+        public static readonly DependencyProperty ScrollOnTextChangedProperty = DependencyProperty.RegisterAttached(
+            "ScrollOnTextChanged",
+            typeof(bool),
+            typeof(TextBoxBehavior),
+            new UIPropertyMetadata(false, OnScrollOnTextChanged));
+
+        private static readonly Dictionary<TextBox, Capture> Associations = new Dictionary<TextBox, Capture>();
 
         public static bool GetScrollOnTextChanged(DependencyObject dependencyObject)
         {
@@ -22,21 +24,20 @@ namespace PsMidiProfiler.Behaviors
             dependencyObject.SetValue(ScrollOnTextChangedProperty, value);
         }
 
-        public static readonly DependencyProperty ScrollOnTextChangedProperty =
-            DependencyProperty.RegisterAttached("ScrollOnTextChanged", typeof(bool), typeof(TextBoxBehavior), new UIPropertyMetadata(false, OnScrollOnTextChanged));
-
-        static void OnScrollOnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnScrollOnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var textBox = dependencyObject as TextBox;
             if (textBox == null)
             {
                 return;
             }
+
             bool oldValue = (bool)e.OldValue, newValue = (bool)e.NewValue;
             if (newValue == oldValue)
             {
                 return;
             }
+
             if (newValue)
             {
                 textBox.Loaded += TextBoxLoaded;
@@ -46,47 +47,25 @@ namespace PsMidiProfiler.Behaviors
             {
                 textBox.Loaded -= TextBoxLoaded;
                 textBox.Unloaded -= TextBoxUnloaded;
-                if (_associations.ContainsKey(textBox))
+                if (Associations.ContainsKey(textBox))
                 {
-                    _associations[textBox].Dispose();
+                    Associations[textBox].Dispose();
                 }
             }
         }
 
-        static void TextBoxUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        private static void TextBoxUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var textBox = (TextBox)sender;
-            _associations[textBox].Dispose();
+            Associations[textBox].Dispose();
             textBox.Unloaded -= TextBoxUnloaded;
         }
 
-        static void TextBoxLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private static void TextBoxLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var textBox = (TextBox)sender;
             textBox.Loaded -= TextBoxLoaded;
-            _associations[textBox] = new Capture(textBox);
+            Associations[textBox] = new Capture(textBox);
         }
-
-        class Capture : IDisposable
-        {
-            private TextBox TextBox { get; set; }
-
-            public Capture(TextBox textBox)
-            {
-                TextBox = textBox;
-                TextBox.TextChanged += OnTextBoxOnTextChanged;
-            }
-
-            private void OnTextBoxOnTextChanged(object sender, TextChangedEventArgs args)
-            {
-                TextBox.ScrollToEnd();
-            }
-
-            public void Dispose()
-            {
-                TextBox.TextChanged -= OnTextBoxOnTextChanged;
-            }
-        }
-
     }
 }

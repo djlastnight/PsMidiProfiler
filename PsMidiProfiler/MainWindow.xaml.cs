@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
-
-namespace PsMidiProfiler
+﻿namespace PsMidiProfiler
 {
+    using System;
+    using System.Linq;
+    using System.Windows;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -11,7 +11,7 @@ namespace PsMidiProfiler
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             var viewModel = this.DataContext as MidiViewModel;
             if (viewModel.MidiInDevices == null || viewModel.MidiInDevices.Count() == 0)
             {
@@ -27,7 +27,7 @@ namespace PsMidiProfiler
             viewModel.ProfileGenerated += this.OnMidiProfileGenerated;
         }
 
-        void OnMidiProfileGenerated(object sender, ProfileGeneratedEventArgs e)
+        private void OnMidiProfileGenerated(object sender, ProfileGeneratedEventArgs e)
         {
             if (e.Error != null)
             {
