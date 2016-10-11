@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using PsMidiProfiler.Controls;
     using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Models;
 
     public interface IControllerMonitor
     {

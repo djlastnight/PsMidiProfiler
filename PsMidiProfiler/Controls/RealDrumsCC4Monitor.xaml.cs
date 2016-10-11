@@ -7,6 +7,8 @@
     using System.Windows;
     using System.Windows.Controls;
     using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Models;
+    using PsMidiProfiler.ViewModels;
 
     /// <summary>
     /// Interaction logic for RealDrumsCC4Monitor.xaml
@@ -300,7 +302,7 @@
 
         public void Highlight(ButtonName button, bool value)
         {
-            Visibility result = PsMidiProfiler.Convert.ToVisibility(value);
+            Visibility result = PsMidiProfiler.Helpers.Convert.ToVisibility(value);
 
             if (button == ButtonName.Red)
             {

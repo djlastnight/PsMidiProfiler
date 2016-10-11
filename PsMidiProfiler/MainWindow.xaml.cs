@@ -3,6 +3,8 @@
     using System;
     using System.Linq;
     using System.Windows;
+    using PsMidiProfiler.Controls;
+    using PsMidiProfiler.ViewModels;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml

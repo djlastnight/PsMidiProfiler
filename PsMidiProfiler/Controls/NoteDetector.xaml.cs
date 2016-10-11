@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Windows;
     using PsMidiProfiler.Enums;
+    using PsMidiProfiler.ViewModels;
     using radio42.Multimedia.Midi;
 
     /// <summary>

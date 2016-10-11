@@ -93,17 +93,17 @@
     <Compile Include="Controls\SevenLaneDrumsMonitor.xaml.cs">
       <DependentUpon>SevenLaneDrumsMonitor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Convert.cs" />
+    <Compile Include="Helpers\Convert.cs" />
     <Compile Include="Enums\ControllerType.cs" />
     <Compile Include="IControllerMonitor.cs" />
-    <Compile Include="MidiModel.cs" />
+    <Compile Include="Models\MidiModel.cs" />
     <Compile Include="NoteDetectedEventArgs.cs" />
     <Compile Include="NoteDetectedEventHandler.cs" />
     <Compile Include="ProfileGeneratedEventArgs.cs" />
-    <Compile Include="ProfilePreviewer.xaml.cs">
+    <Compile Include="Controls\ProfilePreviewer.xaml.cs">
       <DependentUpon>ProfilePreviewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PsDeviceSerializer.cs" />
+    <Compile Include="Helpers\PsDeviceSerializer.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Page Include="Controls\RealDrumsCC4Monitor.xaml">
       <SubType>Designer</SubType>
@@ -142,21 +142,21 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Enums\ButtonName.cs" />
-    <Compile Include="PsProfileButton.cs" />
-    <Compile Include="PsDevice.cs" />
+    <Compile Include="Models\PsProfileButton.cs" />
+    <Compile Include="Models\PsDevice.cs" />
     <Compile Include="Enums\DeviceType.cs" />
     <Compile Include="Enums\Method.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProfilePreviewer.xaml">
+    <Page Include="Controls\ProfilePreviewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MidiViewModel.cs" />
+    <Compile Include="ViewModels\MidiViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -238,6 +238,7 @@
   <ItemGroup>
     <Resource Include="Images\gridLines.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

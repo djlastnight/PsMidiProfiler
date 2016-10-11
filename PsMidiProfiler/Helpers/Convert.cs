@@ -1,4 +1,4 @@
-﻿namespace PsMidiProfiler
+﻿namespace PsMidiProfiler.Helpers
 {
     using System.Windows;
 

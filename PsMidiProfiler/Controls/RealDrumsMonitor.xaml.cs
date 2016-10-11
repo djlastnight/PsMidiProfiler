@@ -5,6 +5,8 @@
     using System.Windows;
     using System.Windows.Controls;
     using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Helpers;
+    using PsMidiProfiler.Models;
 
     /// <summary>
     /// Interaction logic for AdvancedDrumsMonitor.xaml

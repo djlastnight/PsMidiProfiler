@@ -1,4 +1,4 @@
-﻿namespace PsMidiProfiler
+﻿namespace PsMidiProfiler.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +9,8 @@
     using PsMidiProfiler.Commands;
     using PsMidiProfiler.Controls;
     using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Helpers;
+    using PsMidiProfiler.Models;
     using radio42.Multimedia.Midi;
 
     public class MidiViewModel : INotifyPropertyChanged
@@ -18,8 +20,6 @@
         private MidiModel midi;
 
         private ControllerType currentControllerType;
-
-        private Method currentMethod;
 
         private IControllerMonitor controllerMonitor;
 

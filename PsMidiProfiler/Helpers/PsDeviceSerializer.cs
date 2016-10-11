@@ -1,4 +1,4 @@
-﻿namespace PsMidiProfiler
+﻿namespace PsMidiProfiler.Helpers
 {
     using System.Collections.Generic;
     using System.IO;
@@ -7,6 +7,7 @@
     using System.Xml;
     using System.Xml.Serialization;
     using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Models;
 
     public static class PsDeviceSerializer
     {

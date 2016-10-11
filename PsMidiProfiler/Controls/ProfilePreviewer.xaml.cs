@@ -1,4 +1,4 @@
-﻿namespace PsMidiProfiler
+﻿namespace PsMidiProfiler.Controls
 {
     using System.ComponentModel;
     using System.Windows;

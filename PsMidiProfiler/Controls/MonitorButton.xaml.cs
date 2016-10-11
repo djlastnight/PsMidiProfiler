@@ -4,6 +4,8 @@
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
+    using PsMidiProfiler.Models;
+    using PsMidiProfiler.ViewModels;
 
     /// <summary>
     /// Interaction logic for MonitorButton.xaml

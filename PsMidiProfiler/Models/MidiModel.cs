@@ -1,4 +1,4 @@
-﻿namespace PsMidiProfiler
+﻿namespace PsMidiProfiler.Models
 {
     using System.Collections.Generic;
     using System.Diagnostics;
