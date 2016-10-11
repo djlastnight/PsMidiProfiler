@@ -1,0 +1,9 @@
+﻿	Custom Sysex marker format:
+		0xF0 (MIDI identifier for Sysex)
+		Variable length (8 bytes)
+		3 bytes: 'P','S','\0'
+		1 byte: (Message ID: 0 = phrase)
+		1 byte: (Difficulty ID: 0 = Easy, 1 = Medium, 2 = Hard, 3 = Expert)
+		1 byte: (Phrase ID: 1=Open strum,2=Pro guitar slide up,3=Pro guitar slide down,4=Slider note,5=Open Hi Hat,6=Pedal Hi Hat,7=Snare Rim Shot,8=Sizzle Hi Hat,9=Pro guitar palm mute,10=Pro guitar vibrato,11=Pro guitar harmonic,12=Pro guitar pinch harmonic,13=Pro guitar bend,14=Pro guitar accent,15=Pro guitar pop,16=Pro guitar slap,17=Yellow drum note is cymbal+tom,18=Blue drum note is cymbal+tom,19=Green drum note is cymbal+tom)
+		1 byte: (Phrase status: 0 = Phrase stop, 1 = Phrase start)
+		1 byte: 0xF7 data byte ("End of Sysex")

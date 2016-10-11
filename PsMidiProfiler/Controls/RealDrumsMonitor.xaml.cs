@@ -46,7 +46,7 @@
             this.InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
-            buttons.Add(ButtonName.Rim);
+            // buttons.Add(ButtonName.Rim);
             buttons.Add(ButtonName.Yellow_C);
             buttons.Add(ButtonName.Yellow_O);
             buttons.Add(ButtonName.Yellow_P);
@@ -281,10 +281,10 @@
             {
                 this.RedVisibility = result;
             }
-            else if (button == ButtonName.Rim)
-            {
-                this.RimVisibility = result;
-            }
+            //else if (button == ButtonName.Rim)
+            //{
+            //    this.RimVisibility = result;
+            //}
             else if (button == ButtonName.Yellow_C)
             {
                 this.YellowClosedVisibility = result;

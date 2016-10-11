@@ -50,7 +50,7 @@
             this.InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
-            buttons.Add(ButtonName.Rim);
+            // buttons.Add(ButtonName.Rim);
             buttons.Add(ButtonName.Yellow);
             buttons.Add(ButtonName.Yellow_Tom);
             buttons.Add(ButtonName.Blue);
@@ -308,10 +308,10 @@
             {
                 this.RedVisibility = result;
             }
-            else if (button == ButtonName.Rim)
-            {
-                this.RimVisibility = result;
-            }
+            //else if (button == ButtonName.Rim)
+            //{
+            //    this.RimVisibility = result;
+            //}
             else if (button == ButtonName.Yellow_Tom)
             {
                 this.YellowTomVisibility = result;
@@ -338,7 +338,7 @@
             }
             else if (button == ButtonName.Yellow)
             {
-                var hihatState = this.GetHiHatState(this.HiHatPedalVelocity);
+                var hihatState = Helpers.Convert.ToHiHatState(this.HiHatPedalVelocity);
                 switch (hihatState)
                 {
                     case HiHatState.Closed:
@@ -353,22 +353,6 @@
                     default:
                         throw new NotImplementedException("Not implemented HiHatState: " + hihatState);
                 }
-            }
-        }
-
-        private HiHatState GetHiHatState(byte velocity)
-        {
-            if (velocity >= 120)
-            {
-                return HiHatState.Closed;
-            }
-            else if (velocity >= 80)
-            {
-                return HiHatState.HalfClosed;
-            }
-            else
-            {
-                return HiHatState.Opened;
             }
         }
 

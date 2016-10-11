@@ -70,6 +70,7 @@
     <Compile Include="Behaviors\TextBoxBehavior.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Converters\VelocityToBrushConverter.cs" />
     <Compile Include="Enums\HiHatState.cs" />
     <Compile Include="ICC4HiHatPedalMonitor.cs" />
     <Compile Include="Controls\RealDrumsCC4Monitor.xaml.cs">
@@ -238,7 +239,9 @@
   <ItemGroup>
     <Resource Include="Images\gridLines.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Controls\PsSysex.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

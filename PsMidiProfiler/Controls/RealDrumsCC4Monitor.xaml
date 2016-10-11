@@ -3,9 +3,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:converters="clr-namespace:PsMidiProfiler.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:VelocityToBrushConverter x:Key="VelocityToBrushConverter" />
+    </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -67,7 +71,8 @@
                        Visibility="{Binding ElementName=uc, Path=BassVisibility}" />
                 <Border Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Top"
                         Margin="15,0,0,0"
-                        BorderBrush="Black" BorderThickness="1" Background="Orange">
+                        BorderBrush="Black" BorderThickness="1"
+                        Background="{Binding ElementName=uc, Path=HiHatPedalVelocity, Converter={StaticResource VelocityToBrushConverter}}">
                     <Label Content="{Binding ElementName=uc, Path=HiHatPedalVelocity}" />
                 </Border>
             </Grid>
