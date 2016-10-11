@@ -70,6 +70,10 @@
     <Compile Include="Behaviors\TextBoxBehavior.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Controls\FiveFretKeysMonitor.xaml.cs">
+      <DependentUpon>FiveFretKeysMonitor.xaml</DependentUpon>
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Converters\VelocityToBrushConverter.cs" />
     <Compile Include="Enums\HiHatState.cs" />
     <Compile Include="ICC4HiHatPedalMonitor.cs" />
@@ -106,6 +110,10 @@
     </Compile>
     <Compile Include="Helpers\PsDeviceSerializer.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Page Include="Controls\FiveFretKeysMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RealDrumsCC4Monitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -15,7 +15,6 @@
             this.Description = "Generated using Phase Shift Midi Profiler by djlastnight";
             this.Method = 1;
             this.Type = 0;
-            this.ProfileButtons = new List<PsProfileButton>();
         }
 
         public PsDevice(string name, DeviceType type)

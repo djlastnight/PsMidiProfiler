@@ -127,6 +127,9 @@
                     case ControllerType.SevenLaneDrums:
                         this.controllerMonitor = new SevenLaneDrumsMonitor();
                         break;
+                    case ControllerType.FiveFretKeys:
+                        this.controllerMonitor = new FiveFretKeysMonitor();
+                        break;
                     default:
                         throw new NotImplementedException("Not implemented controller type: " + value);
                 }
