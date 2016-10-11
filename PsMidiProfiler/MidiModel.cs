@@ -143,7 +143,7 @@ namespace PsMidiProfiler
 
         private void AddMessageToMonitor(MidiMessageEventArgs e)
         {
-            string message = null;
+            string message = e.ToString();
 
             if (e.IsShortMessage)
             {
@@ -161,19 +161,19 @@ namespace PsMidiProfiler
             {
                 message = e.SysExMessage.ToString();
             }
-            else if (e.EventType == radio42.Multimedia.Midi.MidiMessageEventType.Opened)
+            else if (e.EventType == MidiMessageEventType.Opened)
             {
                 message = string.Format("Midi device {0} opened.", e.DeviceID);
             }
-            else if (e.EventType == radio42.Multimedia.Midi.MidiMessageEventType.Closed)
+            else if (e.EventType == MidiMessageEventType.Closed)
             {
                 message = string.Format("Midi device {0} closed.", e.DeviceID);
             }
-            else if (e.EventType == radio42.Multimedia.Midi.MidiMessageEventType.Started)
+            else if (e.EventType == MidiMessageEventType.Started)
             {
                 message = string.Format("Midi device {0} started.", e.DeviceID);
             }
-            else if (e.EventType == radio42.Multimedia.Midi.MidiMessageEventType.Stopped)
+            else if (e.EventType == MidiMessageEventType.Stopped)
             {
                 message = string.Format("Midi device {0} stopped.", e.DeviceID);
             }
