@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Windows.Data;
     using System.Windows.Input;
     using PsMidiProfiler.Commands;
     using PsMidiProfiler.Controls;
@@ -12,7 +13,6 @@
     using PsMidiProfiler.Helpers;
     using PsMidiProfiler.Models;
     using radio42.Multimedia.Midi;
-    using System.Windows.Data;
 
     public class MidiViewModel : INotifyPropertyChanged
     {
@@ -21,8 +21,6 @@
         private MidiModel midi;
 
         private Controller controller;
-
-        //private ControllerType currentControllerType;
 
         private IControllerMonitor controllerMonitor;
 
@@ -36,8 +34,7 @@
         {
             this.midi = new MidiModel();
             this.midi.MessageReceived += this.OnMidiMessageReceived;
-            //this.CurrentControllerType = ControllerType.FourLaneDrums;
-            this.CurrentController = new Controller(ControllerType.FiveLaneDrums, ControllerCategory.Drums);
+            this.CurrentController = new Controller(ControllerType.FourLaneDrums, ControllerCategory.Drums);
             this.WaitForNoteOff = true;
         }
 
@@ -100,16 +97,7 @@
         {
             get
             {
-                var controllers = new List<Controller>()
-                {
-                    new Controller(ControllerType.FourLaneDrums, ControllerCategory.Drums),
-                    new Controller(ControllerType.FiveLaneDrums, ControllerCategory.Drums),
-                    new Controller(ControllerType.SevenLaneDrums, ControllerCategory.Drums),
-                    new Controller(ControllerType.RealDrums, ControllerCategory.Drums),
-                    new Controller(ControllerType.RealDrumsCC4, ControllerCategory.Drums),
-                    new Controller(ControllerType.FiveLaneKeys, ControllerCategory.Keys),
-                };
-
+                var controllers = Helpers.ControllersHelper.GetControllers();
                 var list = new ListCollectionView(controllers);
                 list.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
                 return list;
@@ -126,30 +114,7 @@
             set
             {
                 this.controller = value;
-
-                switch (this.controller.Type)
-                {
-                    case ControllerType.FourLaneDrums:
-                        this.controllerMonitor = new FourLaneDrumsMonitor();
-                        break;
-                    case ControllerType.FiveLaneDrums:
-                        this.controllerMonitor = new FiveLaneDrumsMonitor();
-                        break;
-                    case ControllerType.RealDrums:
-                        this.controllerMonitor = new RealDrumsMonitor();
-                        break;
-                    case ControllerType.RealDrumsCC4:
-                        this.controllerMonitor = new RealDrumsCC4Monitor();
-                        break;
-                    case ControllerType.SevenLaneDrums:
-                        this.controllerMonitor = new SevenLaneDrumsMonitor();
-                        break;
-                    case ControllerType.FiveLaneKeys:
-                        this.controllerMonitor = new FiveLaneKeysMonitor();
-                        break;
-                    default:
-                        throw new NotImplementedException("Not implemented controller type: " + value);
-                }
+                this.controllerMonitor = Helpers.ControllersHelper.CreaterMonitor(this.controller);
 
                 foreach (var button in this.controllerMonitor.MonitorButtons)
                 {
@@ -262,7 +227,7 @@
                     button => button.ProfileButton.Note == e.ShortMessage.Note &&
                     button.ProfileButton.Channel == e.ShortMessage.Channel);
 
-                bool shouldHightlight = e.ShortMessage.StatusType != radio42.Multimedia.Midi.MIDIStatus.NoteOff;
+                bool shouldHightlight = e.ShortMessage.StatusType != MIDIStatus.NoteOff;
                 foreach (var button in buttons)
                 {
                     this.ControllerMonitor.Highlight(button.ProfileButton.Name, shouldHightlight);

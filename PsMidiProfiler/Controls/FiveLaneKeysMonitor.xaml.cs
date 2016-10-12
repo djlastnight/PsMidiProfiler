@@ -7,6 +7,7 @@
     using System.Windows.Controls;
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
+    using radio42.Multimedia.Midi;
 
     /// <summary>
     /// Interaction logic for FiveFretKeys.xaml
@@ -152,25 +153,38 @@
         public void Highlight(ButtonName button, bool value)
         {
             var result = Helpers.Convert.ToVisibility(value);
+            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            byte note = 0;
+
             if (button == ButtonName.Green)
             {
                 this.GreenVisibility = result;
+                note = 50;
             }
             else if (button == ButtonName.Red)
             {
                 this.RedVisibility = result;
+                note = 52;
             }
             else if (button == ButtonName.Yellow)
             {
                 this.YellowVisibility = result;
+                note = 53;
             }
             else if (button == ButtonName.Blue)
             {
                 this.BlueVisibility = result;
+                note = 55;
             }
             else if (button == ButtonName.Orange)
             {
                 this.OrangeVisibility = result;
+                note = 57;
+            }
+
+            if (note != 0)
+            {
+                MidiModel.Send(new MidiShortMessage(status, 1, note, 127, 0));
             }
         }
 

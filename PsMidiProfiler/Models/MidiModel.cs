@@ -9,6 +9,10 @@
 
     public class MidiModel
     {
+        private static MidiOutputDevice midiOut;
+
+        private static bool isMidiOutInitialized;
+
         private readonly bool autoClearHistory;
 
         private MidiInputDevice midiIn;
@@ -67,6 +71,32 @@
                     return this.noteHistory.ToString();
                 }
             }
+        }
+
+        public static void Send(MidiShortMessage message)
+        {
+            if (midiOut == null)
+            {
+                string[] devices = MidiOutputDevice.GetDeviceDescriptions();
+                int index = devices.ToList().IndexOf("Microsoft GS Wavetable Synth");
+                if (index != -1)
+                {
+                    midiOut = new MidiOutputDevice(index);
+                    isMidiOutInitialized = midiOut.Open();
+                }
+            }
+
+            if (!isMidiOutInitialized || !midiOut.IsOpened)
+            {
+                return;
+            }
+
+            if (message.StatusType == MIDIStatus.NoteOff)
+            {
+                message.Velocity = 0;
+            }
+
+            midiOut.Send(message);
         }
 
         public void RefreshDevices()

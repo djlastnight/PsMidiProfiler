@@ -9,6 +9,7 @@
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
     using PsMidiProfiler.ViewModels;
+    using radio42.Multimedia.Midi;
 
     /// <summary>
     /// Interaction logic for RealDrumsCC4Monitor.xaml
@@ -129,8 +130,10 @@
                     var task = Task.Run(async delegate
                     {
                         this.YellowClosedVisibility = Visibility.Visible;
+                        MidiModel.Send(new MidiShortMessage(MIDIStatus.NoteOn, 9, (byte)MidiNote.ClosedHiHat, 127, 0));
                         await Task.Delay(MidiViewModel.UnhighlightDelayInMilliseconds);
                         this.YellowClosedVisibility = Visibility.Hidden;
+                        MidiModel.Send(new MidiShortMessage(MIDIStatus.NoteOff, 9, (byte)MidiNote.ClosedHiHat, 0, 0));
                     }); 
                 }
             }
@@ -307,34 +310,43 @@
         public void Highlight(ButtonName button, bool value)
         {
             Visibility result = PsMidiProfiler.Helpers.Convert.ToVisibility(value);
+            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            MidiNote note = MidiNote.None;
 
             if (button == ButtonName.Red)
             {
                 this.RedVisibility = result;
+                note = MidiNote.AcousticSnare;
             }
             else if (button == ButtonName.Yellow_Tom)
             {
                 this.YellowTomVisibility = result;
+                note = MidiNote.LowTom;
             }
             else if (button == ButtonName.Blue)
             {
                 this.BlueVisibility = result;
+                note = MidiNote.RideCymbal2;
             }
             else if (button == ButtonName.Blue_Tom)
             {
                 this.BlueTomVisibility = result;
+                note = MidiNote.HighFloorTom;
             }
             else if (button == ButtonName.Green)
             {
                 this.GreenVisibility = result;
+                note = MidiNote.CrashCymbal1;
             }
             else if (button == ButtonName.Green_Tom)
             {
                 this.GreenTomVisibility = result;
+                note = MidiNote.LowFloorTom;
             }
             else if (button == ButtonName.Bass)
             {
                 this.BassVisibility = result;
+                note = MidiNote.BassDrum1;
             }
             else if (button == ButtonName.Yellow)
             {
@@ -343,16 +355,24 @@
                 {
                     case HiHatState.Closed:
                         this.YellowClosedVisibility = result;
+                        note = MidiNote.ClosedHiHat;
                         break;
                     case HiHatState.HalfClosed:
                         this.YellowSizzleVisibility = result;
+                        note = MidiNote.RideCymbal1;
                         break;
                     case HiHatState.Opened:
                         this.YellowOpenVisibility = result;
+                        note = MidiNote.OpenHiHat;
                         break;
                     default:
                         throw new NotImplementedException("Not implemented HiHatState: " + hihatState);
                 }
+            }
+
+            if (note != MidiNote.None)
+            {
+                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, 127, 0));
             }
         }
 
