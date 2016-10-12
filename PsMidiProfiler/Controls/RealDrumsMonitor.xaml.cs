@@ -46,6 +46,7 @@
             this.InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
+
             // buttons.Add(ButtonName.Rim);
             buttons.Add(ButtonName.Yellow_C);
             buttons.Add(ButtonName.Yellow_O);
@@ -90,9 +91,12 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ControllerType ControllerType
+        public Controller Controller
         {
-            get { return Enums.ControllerType.RealDrums; }
+            get
+            {
+                return new Controller(ControllerType.RealDrums, ControllerCategory.Drums);
+            }
         }
 
         public PsDevice Device
@@ -281,10 +285,6 @@
             {
                 this.RedVisibility = result;
             }
-            //else if (button == ButtonName.Rim)
-            //{
-            //    this.RimVisibility = result;
-            //}
             else if (button == ButtonName.Yellow_C)
             {
                 this.YellowClosedVisibility = result;

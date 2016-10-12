@@ -66,9 +66,12 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ControllerType ControllerType
+        public Controller Controller
         {
-            get { return ControllerType.FiveLaneDrums; }
+            get
+            {
+                return new Controller(ControllerType.FiveLaneDrums, ControllerCategory.Drums);
+            }
         }
 
         public PsDevice Device

@@ -101,6 +101,8 @@
     <Compile Include="Helpers\Convert.cs" />
     <Compile Include="Enums\ControllerType.cs" />
     <Compile Include="IControllerMonitor.cs" />
+    <Compile Include="Models\Controller.cs" />
+    <Compile Include="Enums\ControllerCategory.cs" />
     <Compile Include="Models\MidiModel.cs" />
     <Compile Include="NoteDetectedEventArgs.cs" />
     <Compile Include="NoteDetectedEventHandler.cs" />

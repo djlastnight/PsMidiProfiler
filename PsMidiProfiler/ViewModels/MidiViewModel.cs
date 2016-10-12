@@ -12,6 +12,7 @@
     using PsMidiProfiler.Helpers;
     using PsMidiProfiler.Models;
     using radio42.Multimedia.Midi;
+    using System.Windows.Data;
 
     public class MidiViewModel : INotifyPropertyChanged
     {
@@ -19,7 +20,9 @@
 
         private MidiModel midi;
 
-        private ControllerType currentControllerType;
+        private Controller controller;
+
+        //private ControllerType currentControllerType;
 
         private IControllerMonitor controllerMonitor;
 
@@ -33,7 +36,8 @@
         {
             this.midi = new MidiModel();
             this.midi.MessageReceived += this.OnMidiMessageReceived;
-            this.CurrentControllerType = ControllerType.FourLaneDrums;
+            //this.CurrentControllerType = ControllerType.FourLaneDrums;
+            this.CurrentController = new Controller(ControllerType.FiveLaneDrums, ControllerCategory.Drums);
             this.WaitForNoteOff = true;
         }
 
@@ -92,25 +96,38 @@
             }
         }
 
-        public IEnumerable<ControllerType> ControllerTypes
+        public ListCollectionView Controllers
         {
             get
             {
-                return Enum.GetValues(typeof(ControllerType)).Cast<ControllerType>();
+                var controllers = new List<Controller>()
+                {
+                    new Controller(ControllerType.FourLaneDrums, ControllerCategory.Drums),
+                    new Controller(ControllerType.FiveLaneDrums, ControllerCategory.Drums),
+                    new Controller(ControllerType.SevenLaneDrums, ControllerCategory.Drums),
+                    new Controller(ControllerType.RealDrums, ControllerCategory.Drums),
+                    new Controller(ControllerType.RealDrumsCC4, ControllerCategory.Drums),
+                    new Controller(ControllerType.FiveLaneKeys, ControllerCategory.Keys),
+                };
+
+                var list = new ListCollectionView(controllers);
+                list.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+                return list;
             }
         }
 
-        public ControllerType CurrentControllerType
+        public Controller CurrentController
         {
             get
             {
-                return this.currentControllerType;
+                return this.controller;
             }
 
             set
             {
-                this.currentControllerType = value;
-                switch (value)
+                this.controller = value;
+
+                switch (this.controller.Type)
                 {
                     case ControllerType.FourLaneDrums:
                         this.controllerMonitor = new FourLaneDrumsMonitor();
@@ -140,6 +157,7 @@
                 }
 
                 this.ControllerMonitor = this.controllerMonitor;
+                this.OnPropertyChanged("CurrentController");
             }
         }
 

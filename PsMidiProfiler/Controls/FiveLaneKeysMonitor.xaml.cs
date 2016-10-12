@@ -61,9 +61,12 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ControllerType ControllerType
+        public Controller Controller
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return new Controller(ControllerType.FiveLaneKeys, ControllerCategory.Keys);
+            }
         }
 
         public PsDevice Device

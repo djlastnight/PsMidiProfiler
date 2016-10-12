@@ -74,9 +74,9 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Enums.ControllerType ControllerType
+        public Controller Controller
         {
-            get { return Enums.ControllerType.SevenLaneDrums; }
+            get { return new Controller(ControllerType.SevenLaneDrums, ControllerCategory.Drums); }
         }
 
         public PsDevice Device

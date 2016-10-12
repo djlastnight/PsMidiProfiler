@@ -3,7 +3,6 @@
     public enum ButtonName
     {
         Red,
-        // Rim,
         Yellow,
         Yellow_C,
         Yellow_O,
