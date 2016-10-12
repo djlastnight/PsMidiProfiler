@@ -12,7 +12,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0" Margin="20">
                 <Image Source="/Images/7lane_drums.png" HorizontalAlignment="Left"/>
                 <Image Source="/Images/7lane_red.png" HorizontalAlignment="Left"
                Visibility="{Binding ElementName=uc, Path=RedVisibility}" />

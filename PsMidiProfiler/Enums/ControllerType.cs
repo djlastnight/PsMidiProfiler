@@ -7,6 +7,6 @@
         SevenLaneDrums,
         RealDrums,
         RealDrumsCC4,
-        FiveFretKeys
+        FiveLaneKeys
     }
 }

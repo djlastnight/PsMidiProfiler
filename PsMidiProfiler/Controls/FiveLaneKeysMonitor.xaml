@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="PsMidiProfiler.Controls.FiveFretKeysMonitor"
+﻿<UserControl x:Class="PsMidiProfiler.Controls.FiveLaneKeysMonitor"
+             x:Name="uc"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,20 +11,18 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid>
-            <Image Source="/Images/5lane_drums.png" HorizontalAlignment="Left"/>
-            <Image Source="/Images/5lane_red.png" HorizontalAlignment="Left"
-                   Visibility="{Binding ElementName=uc, Path=RedVisibility}" />
-            <Image Source="/Images/5lane_yellow.png" HorizontalAlignment="Left"
-                   Visibility="{Binding ElementName=uc, Path=YellowVisibility}" />
-            <Image Source="/Images/5lane_blue.png" HorizontalAlignment="Left"
-                   Visibility="{Binding ElementName=uc, Path=BlueVisibility}" />
-            <Image Source="/Images/5lane_orange.png" HorizontalAlignment="Left"
-                   Visibility="{Binding ElementName=uc, Path=OrangeVisibility}" />
-            <Image Source="/Images/5lane_green.png" HorizontalAlignment="Left"
+        <Grid Margin="20">
+            <Image Source="/Images/5lane_keys.png" HorizontalAlignment="Left"/>
+            <Image Source="/Images/5lane_keys_green.png" HorizontalAlignment="Left"
                    Visibility="{Binding ElementName=uc, Path=GreenVisibility}" />
-            <Image Source="/Images/5lane_bass.png" HorizontalAlignment="Left"
-                   Visibility="{Binding ElementName=uc, Path=BassVisibility}" />
+            <Image Source="/Images/5lane_keys_red.png" HorizontalAlignment="Left"
+                   Visibility="{Binding ElementName=uc, Path=RedVisibility}" />
+            <Image Source="/Images/5lane_keys_yellow.png" HorizontalAlignment="Left"
+                   Visibility="{Binding ElementName=uc, Path=YellowVisibility}" />
+            <Image Source="/Images/5lane_keys_blue.png" HorizontalAlignment="Left"
+                   Visibility="{Binding ElementName=uc, Path=BlueVisibility}" />
+            <Image Source="/Images/5lane_keys_orange.png" HorizontalAlignment="Left"
+                   Visibility="{Binding ElementName=uc, Path=OrangeVisibility}" />
         </Grid>
         <ItemsControl Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                       ItemsSource="{Binding ElementName=uc, Path=MonitorButtons}"/>

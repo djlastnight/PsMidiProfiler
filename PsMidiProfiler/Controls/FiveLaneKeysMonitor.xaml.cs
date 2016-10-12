@@ -11,7 +11,7 @@
     /// <summary>
     /// Interaction logic for FiveFretKeys.xaml
     /// </summary>
-    public partial class FiveFretKeysMonitor : UserControl, IControllerMonitor, INotifyPropertyChanged
+    public partial class FiveLaneKeysMonitor : UserControl, IControllerMonitor, INotifyPropertyChanged
     {
         private PsDevice device;
 
@@ -27,7 +27,7 @@
 
         private Visibility orangeVisibility;
 
-        public FiveFretKeysMonitor()
+        public FiveLaneKeysMonitor()
         {
             this.InitializeComponent();
             var buttons = new List<ButtonName>();
@@ -37,7 +37,7 @@
             buttons.Add(ButtonName.Blue);
             buttons.Add(ButtonName.Orange);
 
-            this.device = new PsDevice("Five Fret Keys Midi Profile", DeviceType.Keys);
+            this.device = new PsDevice("Five Lane Keys Midi Profile", DeviceType.Keys);
             this.device.ProfileButtons = new List<PsProfileButton>();
             this.monitorButtons = new List<MonitorButton>();
 
