@@ -1,5 +1,6 @@
 ﻿namespace PsMidiProfiler.Helpers
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -15,8 +16,15 @@
         {
             if (device.ProfileButtons == null || device.ProfileButtons.Count == 0)
             {
-                error = "Midi profile creation failed - no buttons data";
-                return null;
+                var strB = new StringBuilder();
+                strB.AppendLine("<DEVICE>");
+                strB.AppendFormat("\t<NAME>{0}</NAME>{1}", device.Name, Environment.NewLine);
+                strB.AppendFormat("\t<DESCRIPTION>{0}</DESCRIPTION>{1}", device.Description, Environment.NewLine);
+                strB.AppendFormat("\t<TYPE>{0}</TYPE>{1}", device.Type, Environment.NewLine);
+                strB.AppendFormat("\t<METHOD>{0}</METHOD>{1}", device.Method, Environment.NewLine);
+                strB.Append("</DEVICE>");
+                error = null;
+                return strB.ToString();
             }
 
             error = "Midi profile creation failed - not all buttons were set!";

@@ -12,7 +12,7 @@
     /// <summary>
     /// Interaction logic for FourLaneDrumsMonitor.xaml
     /// </summary>
-    public partial class FourLaneDrumsMonitor : UserControl, IControllerMonitor, INotifyPropertyChanged
+    public partial class FourLaneDrumsMonitor : UserControl, IControllerMonitor, IButtonHighlighter, INotifyPropertyChanged
     {
         private PsDevice device;
 
@@ -151,11 +151,11 @@
             }
         }
 
-        public void Highlight(ButtonName button, bool value)
+        public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
         {
-            Visibility result = Convert.ToVisibility(value);
+            Visibility result = Convert.ToVisibility(isNoteOn);
             MidiNote note = MidiNote.None;
-            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            var status = isNoteOn ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
 
             if (button == ButtonName.Red)
             {
@@ -185,7 +185,7 @@
 
             if (note != MidiNote.None)
             {
-                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, 127, 0));
+                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, velocity, 0));
             }
         }
 

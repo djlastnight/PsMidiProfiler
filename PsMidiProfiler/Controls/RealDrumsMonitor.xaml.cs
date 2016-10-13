@@ -12,7 +12,7 @@
     /// <summary>
     /// Interaction logic for AdvancedDrumsMonitor.xaml
     /// </summary>
-    public partial class RealDrumsMonitor : UserControl, IControllerMonitor, INotifyPropertyChanged
+    public partial class RealDrumsMonitor : UserControl, IControllerMonitor, IButtonHighlighter, INotifyPropertyChanged
     {
         private PsDevice device;
 
@@ -276,10 +276,10 @@
             }
         }
 
-        public void Highlight(ButtonName button, bool value)
+        public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
         {
-            Visibility result = Convert.ToVisibility(value);
-            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            Visibility result = Convert.ToVisibility(isNoteOn);
+            var status = isNoteOn ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
             MidiNote note = MidiNote.None;
 
             if (button == ButtonName.Red)
@@ -340,7 +340,7 @@
 
             if (note != MidiNote.None)
             {
-                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, 127, 0));
+                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, velocity, 0));
             }
         }
 

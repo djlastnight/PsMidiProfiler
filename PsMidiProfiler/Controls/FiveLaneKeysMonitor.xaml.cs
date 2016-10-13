@@ -12,7 +12,7 @@
     /// <summary>
     /// Interaction logic for FiveFretKeys.xaml
     /// </summary>
-    public partial class FiveLaneKeysMonitor : UserControl, IControllerMonitor, INotifyPropertyChanged
+    public partial class FiveLaneKeysMonitor : UserControl, IControllerMonitor, IButtonHighlighter, INotifyPropertyChanged
     {
         private PsDevice device;
 
@@ -150,10 +150,10 @@
             }
         }
 
-        public void Highlight(ButtonName button, bool value)
+        public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
         {
-            var result = Helpers.Convert.ToVisibility(value);
-            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            var result = Helpers.Convert.ToVisibility(isNoteOn);
+            var status = isNoteOn ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
             byte note = 0;
 
             if (button == ButtonName.Green)
@@ -184,7 +184,7 @@
 
             if (note != 0)
             {
-                MidiModel.Send(new MidiShortMessage(status, 1, note, 127, 0));
+                MidiModel.Send(new MidiShortMessage(status, 1, note, velocity, 0));
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace PsMidiProfiler
 {
-    public interface ICC4HiHatPedalMonitor
+    public interface IHiHatPedalMonitor
     {
         byte HiHatPedalVelocity { get; set; }
     }

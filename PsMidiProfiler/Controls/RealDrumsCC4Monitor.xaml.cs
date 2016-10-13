@@ -14,7 +14,7 @@
     /// <summary>
     /// Interaction logic for RealDrumsCC4Monitor.xaml
     /// </summary>
-    public partial class RealDrumsCC4Monitor : UserControl, IControllerMonitor, INotifyPropertyChanged, ICC4HiHatPedalMonitor
+    public partial class RealDrumsCC4Monitor : UserControl, IControllerMonitor, IButtonHighlighter, IHiHatPedalMonitor, INotifyPropertyChanged
     {
         private PsDevice device;
 
@@ -305,10 +305,10 @@
             }
         }
 
-        public void Highlight(ButtonName button, bool value)
+        public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
         {
-            Visibility result = PsMidiProfiler.Helpers.Convert.ToVisibility(value);
-            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            Visibility result = PsMidiProfiler.Helpers.Convert.ToVisibility(isNoteOn);
+            var status = isNoteOn ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
             MidiNote note = MidiNote.None;
 
             if (button == ButtonName.Red)
@@ -370,7 +370,7 @@
 
             if (note != MidiNote.None)
             {
-                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, 127, 0));
+                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, velocity, 0));
             }
         }
 

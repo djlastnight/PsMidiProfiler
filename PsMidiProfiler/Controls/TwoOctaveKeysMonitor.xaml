@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="PsMidiProfiler.Controls.TwoOctaveKeysMonitor"
+             x:Name="uc"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Image Source="/Images/2octave_keys.png"/>
+            <Image Source="/Images/2octave_keys_c3.png" Visibility="{Binding ElementName=uc, Path=C3}" />
+            <Image Source="/Images/2octave_keys_cSharp3.png" Visibility="{Binding ElementName=uc, Path=CSharp3}" />
+            <Image Source="/Images/2octave_keys_d3.png" Visibility="{Binding ElementName=uc, Path=D3}" />
+            <Image Source="/Images/2octave_keys_dSharp3.png" Visibility="{Binding ElementName=uc, Path=DSharp3}" />
+            <Image Source="/Images/2octave_keys_e3.png" Visibility="{Binding ElementName=uc, Path=E3}" />
+            <Image Source="/Images/2octave_keys_f3.png" Visibility="{Binding ElementName=uc, Path=F3}" />
+            <Image Source="/Images/2octave_keys_fSharp3.png" Visibility="{Binding ElementName=uc, Path=FSharp3}" />
+            <Image Source="/Images/2octave_keys_g3.png" Visibility="{Binding ElementName=uc, Path=G3}" />
+            <Image Source="/Images/2octave_keys_gSharp3.png" Visibility="{Binding ElementName=uc, Path=GSharp3}" />
+            <Image Source="/Images/2octave_keys_a3.png" Visibility="{Binding ElementName=uc, Path=A3}" />
+            <Image Source="/Images/2octave_keys_aSharp3.png" Visibility="{Binding ElementName=uc, Path=ASharp3}" />
+            <Image Source="/Images/2octave_keys_b3.png" Visibility="{Binding ElementName=uc, Path=B3}" />
+
+            <Image Source="/Images/2octave_keys_c4.png" Visibility="{Binding ElementName=uc, Path=C4}" />
+            <Image Source="/Images/2octave_keys_cSharp4.png" Visibility="{Binding ElementName=uc, Path=CSharp4}" />
+            <Image Source="/Images/2octave_keys_d4.png" Visibility="{Binding ElementName=uc, Path=D4}" />
+            <Image Source="/Images/2octave_keys_dSharp4.png" Visibility="{Binding ElementName=uc, Path=DSharp4}" />
+            <Image Source="/Images/2octave_keys_e4.png" Visibility="{Binding ElementName=uc, Path=E4}" />
+            <Image Source="/Images/2octave_keys_f4.png" Visibility="{Binding ElementName=uc, Path=F4}" />
+            <Image Source="/Images/2octave_keys_fSharp4.png" Visibility="{Binding ElementName=uc, Path=FSharp4}" />
+            <Image Source="/Images/2octave_keys_g4.png" Visibility="{Binding ElementName=uc, Path=G4}" />
+            <Image Source="/Images/2octave_keys_gSharp4.png" Visibility="{Binding ElementName=uc, Path=GSharp4}" />
+            <Image Source="/Images/2octave_keys_a4.png" Visibility="{Binding ElementName=uc, Path=A4}" />
+            <Image Source="/Images/2octave_keys_aSharp4.png" Visibility="{Binding ElementName=uc, Path=ASharp4}" />
+            <Image Source="/Images/2octave_keys_b4.png" Visibility="{Binding ElementName=uc, Path=B4}" />
+
+            <Image Source="/Images/2octave_keys_c5.png" Visibility="{Binding ElementName=uc, Path=C5}" />
+        </Grid>
+    </ScrollViewer>
+</UserControl>

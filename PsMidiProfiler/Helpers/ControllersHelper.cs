@@ -18,12 +18,13 @@
                     new Controller(ControllerType.RealDrums, ControllerCategory.Drums),
                     new Controller(ControllerType.RealDrumsCC4, ControllerCategory.Drums),
                     new Controller(ControllerType.FiveLaneKeys, ControllerCategory.Keys),
+                    new Controller(ControllerType.TwoOctaveKeys, ControllerCategory.Keys)
                 };
 
             return controllers;
         }
 
-        internal static IControllerMonitor CreaterMonitor(Controller controller)
+        internal static IControllerMonitor CreateMonitor(Controller controller)
         {
             IControllerMonitor monitor;
             switch (controller.Type)
@@ -45,6 +46,9 @@
                     break;
                 case ControllerType.FiveLaneKeys:
                     monitor = new FiveLaneKeysMonitor();
+                    break;
+                case ControllerType.TwoOctaveKeys:
+                    monitor = new TwoOctaveKeysMonitor();
                     break;
                 default:
                     throw new NotImplementedException("Not implemented controller type: " + controller.Type);

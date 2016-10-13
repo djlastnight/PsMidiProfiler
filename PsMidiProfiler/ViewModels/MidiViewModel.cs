@@ -129,11 +129,15 @@
             set
             {
                 this.controller = value;
-                this.controllerMonitor = Helpers.ControllersHelper.CreaterMonitor(this.controller);
+                this.controllerMonitor = Helpers.ControllersHelper.CreateMonitor(this.controller);
 
-                foreach (var button in this.controllerMonitor.MonitorButtons)
+                if (this.controllerMonitor is IButtonHighlighter)
                 {
-                    button.Cleared += this.OnMonitorButtonCleared;
+                    var buttons = (this.controllerMonitor as IButtonHighlighter).MonitorButtons;
+                    foreach (var button in buttons)
+                    {
+                        button.Cleared += this.OnMonitorButtonCleared;
+                    }   
                 }
 
                 this.ControllerMonitor = this.controllerMonitor;
@@ -228,36 +232,53 @@
                 bool isMSB = controller == 4;
                 bool isLSB = controller == 36;
 
-                if (this.controllerMonitor is ICC4HiHatPedalMonitor)
+                if (this.controllerMonitor is IHiHatPedalMonitor)
                 {
                     if (isMSB || (isLSB && velocity == 0))
                     {
-                        var pedalMonitor = this.controllerMonitor as ICC4HiHatPedalMonitor;
+                        var pedalMonitor = this.controllerMonitor as IHiHatPedalMonitor;
                         pedalMonitor.HiHatPedalVelocity = velocity;
                         return;
                     }
                 }
 
-                var buttons = this.ControllerMonitor.MonitorButtons.Where(
-                    button => button.ProfileButton.Note == e.ShortMessage.Note &&
-                    button.ProfileButton.Channel == e.ShortMessage.Channel);
-
-                bool shouldHightlight = e.ShortMessage.StatusType != MIDIStatus.NoteOff;
-                foreach (var button in buttons)
+                if (this.controllerMonitor is INoteHighlighter)
                 {
-                    this.ControllerMonitor.Highlight(button.ProfileButton.Name, shouldHightlight);
+                    var noteHighlighter = this.controllerMonitor as INoteHighlighter;
+                    noteHighlighter.HighlightNote(
+                        e.ShortMessage.Note,
+                        e.ShortMessage.StatusType == MIDIStatus.NoteOn,
+                        e.ShortMessage.Velocity);
+                    return;
                 }
 
-                if (shouldHightlight && !this.WaitForNoteOff)
+                if (this.controllerMonitor is IButtonHighlighter)
                 {
-                    var task = Task.Run(async delegate
+                    var buttonHighlighter = this.controllerMonitor as IButtonHighlighter;
+                    var buttons = buttonHighlighter.MonitorButtons.Where(
+                        button => button.ProfileButton.Note == e.ShortMessage.Note &&
+                            button.ProfileButton.Channel == e.ShortMessage.Channel);
+
+                    bool shouldHightlight = e.ShortMessage.StatusType == MIDIStatus.NoteOn;
+                    foreach (var button in buttons)
                     {
-                        await Task.Delay(MidiViewModel.UnhighlightDelayInMilliseconds);
-                        foreach (var button in buttons)
+                        buttonHighlighter.Highlight(
+                            button.ProfileButton.Name,
+                            shouldHightlight,
+                            e.ShortMessage.Velocity);
+                    }
+
+                    if (shouldHightlight && !this.WaitForNoteOff)
+                    {
+                        var task = Task.Run(async delegate
                         {
-                            this.ControllerMonitor.Highlight(button.ProfileButton.Name, false);
-                        }
-                    });
+                            await Task.Delay(MidiViewModel.UnhighlightDelayInMilliseconds);
+                            foreach (var button in buttons)
+                            {
+                                buttonHighlighter.Highlight(button.ProfileButton.Name, false, 0);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -265,9 +286,10 @@
         private void OnMonitorButtonCleared(object sender, EventArgs e)
         {
             var button = sender as MonitorButton;
-            if (button != null)
+            var highlighter = this.controllerMonitor as IButtonHighlighter;
+            if (button != null && highlighter != null)
             {
-                this.controllerMonitor.Highlight(button.ProfileButton.Name, false);
+                highlighter.Highlight(button.ProfileButton.Name, false, 0);
             }
         }
     }

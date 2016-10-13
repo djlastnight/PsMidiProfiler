@@ -70,6 +70,9 @@
     <Compile Include="Behaviors\TextBoxBehavior.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Controls\TwoOctaveKeysMonitor.xaml.cs">
+      <DependentUpon>TwoOctaveKeysMonitor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FiveLaneKeysMonitor.xaml.cs">
       <DependentUpon>FiveLaneKeysMonitor.xaml</DependentUpon>
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -78,7 +81,8 @@
     <Compile Include="Enums\HiHatState.cs" />
     <Compile Include="Enums\MidiNote.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
-    <Compile Include="ICC4HiHatPedalMonitor.cs" />
+    <Compile Include="IButtonHighlighter.cs" />
+    <Compile Include="IHiHatPedalMonitor.cs" />
     <Compile Include="Controls\RealDrumsCC4Monitor.xaml.cs">
       <DependentUpon>RealDrumsCC4Monitor.xaml</DependentUpon>
     </Compile>
@@ -114,6 +118,10 @@
     </Compile>
     <Compile Include="Helpers\PsDeviceSerializer.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Page Include="Controls\TwoOctaveKeysMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\FiveLaneKeysMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -169,6 +177,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INoteHighlighter.cs" />
     <Compile Include="ViewModels\MidiViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -258,6 +267,34 @@
     <Resource Include="Images\5lane_keys_orange.png" />
     <Resource Include="Images\5lane_keys_red.png" />
     <Resource Include="Images\5lane_keys_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\2octave_keys.png" />
+    <Resource Include="Images\2octave_keys_aSharp3.png" />
+    <Resource Include="Images\2octave_keys_aSharp4.png" />
+    <Resource Include="Images\2octave_keys_a3.png" />
+    <Resource Include="Images\2octave_keys_a4.png" />
+    <Resource Include="Images\2octave_keys_b3.png" />
+    <Resource Include="Images\2octave_keys_b4.png" />
+    <Resource Include="Images\2octave_keys_cSharp3.png" />
+    <Resource Include="Images\2octave_keys_cSharp4.png" />
+    <Resource Include="Images\2octave_keys_c3.png" />
+    <Resource Include="Images\2octave_keys_c4.png" />
+    <Resource Include="Images\2octave_keys_c5.png" />
+    <Resource Include="Images\2octave_keys_dSharp3.png" />
+    <Resource Include="Images\2octave_keys_dSharp4.png" />
+    <Resource Include="Images\2octave_keys_d3.png" />
+    <Resource Include="Images\2octave_keys_d4.png" />
+    <Resource Include="Images\2octave_keys_e3.png" />
+    <Resource Include="Images\2octave_keys_e4.png" />
+    <Resource Include="Images\2octave_keys_fSharp3.png" />
+    <Resource Include="Images\2octave_keys_fSharp4.png" />
+    <Resource Include="Images\2octave_keys_f3.png" />
+    <Resource Include="Images\2octave_keys_f4.png" />
+    <Resource Include="Images\2octave_keys_gSharp3.png" />
+    <Resource Include="Images\2octave_keys_gSharp4.png" />
+    <Resource Include="Images\2octave_keys_g3.png" />
+    <Resource Include="Images\2octave_keys_g4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
