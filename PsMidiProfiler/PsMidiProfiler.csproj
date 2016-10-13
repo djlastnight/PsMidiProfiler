@@ -70,6 +70,9 @@
     <Compile Include="Behaviors\TextBoxBehavior.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Controls\RealGuitarMonitor.xaml.cs">
+      <DependentUpon>RealGuitarMonitor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TwoOctaveKeysMonitor.xaml.cs">
       <DependentUpon>TwoOctaveKeysMonitor.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,10 @@
     </Compile>
     <Compile Include="Helpers\PsDeviceSerializer.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Page Include="Controls\RealGuitarMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TwoOctaveKeysMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -295,6 +302,9 @@
     <Resource Include="Images\2octave_keys_gSharp4.png" />
     <Resource Include="Images\2octave_keys_g3.png" />
     <Resource Include="Images\2octave_keys_g4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\real_guitar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

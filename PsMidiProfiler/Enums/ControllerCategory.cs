@@ -3,6 +3,7 @@
     public enum ControllerCategory
     {
         Drums,
-        Keys
+        Keys,
+        Guitars
     }
 }
