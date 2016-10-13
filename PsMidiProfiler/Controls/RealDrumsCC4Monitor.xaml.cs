@@ -51,8 +51,6 @@
             this.InitializeComponent();
             var buttons = new List<ButtonName>();
             buttons.Add(ButtonName.Red);
-
-            // buttons.Add(ButtonName.Rim);
             buttons.Add(ButtonName.Yellow);
             buttons.Add(ButtonName.Yellow_Tom);
             buttons.Add(ButtonName.Blue);

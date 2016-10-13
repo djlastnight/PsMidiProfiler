@@ -41,6 +41,12 @@
 
         public event MidiMessageEventHandler MessageReceived;
 
+        public static bool IsOutputEnabled
+        {
+            get;
+            set;
+        }
+
         public IEnumerable<string> MidiInDevices
         {
             get
@@ -75,6 +81,11 @@
 
         public static void Send(MidiShortMessage message)
         {
+            if (!IsOutputEnabled)
+            {
+                return;
+            }
+
             if (midiOut == null)
             {
                 string[] devices = MidiOutputDevice.GetDeviceDescriptions();

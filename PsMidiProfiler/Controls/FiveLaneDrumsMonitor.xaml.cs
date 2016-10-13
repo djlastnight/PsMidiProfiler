@@ -7,6 +7,7 @@
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Helpers;
     using PsMidiProfiler.Models;
+    using radio42.Multimedia.Midi;
 
     /// <summary>
     /// Interaction logic for FiveLaneDrumsMonitor.xaml
@@ -171,30 +172,43 @@
         public void Highlight(ButtonName button, bool value)
         {
             Visibility result = Convert.ToVisibility(value);
+            MidiNote note = MidiNote.None;
+            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
 
             if (button == ButtonName.Red)
             {
                 this.RedVisibility = result;
+                note = MidiNote.ElectricSnare;
             }
             else if (button == ButtonName.Yellow)
             {
                 this.YellowVisibility = result;
+                note = MidiNote.OpenHiHat;
             }
             else if (button == ButtonName.Blue_Tom)
             {
                 this.BlueVisibility = result;
+                note = MidiNote.HighFloorTom;
             }
             else if (button == ButtonName.Orange)
             {
                 this.OrangeVisibility = result;
+                note = MidiNote.CrashCymbal1;
             }
             else if (button == ButtonName.Green_Tom)
             {
                 this.GreenVisibility = result;
+                note = MidiNote.LowFloorTom;
             }
             else if (button == ButtonName.Bass)
             {
                 this.BassVisibility = result;
+                note = MidiNote.BassDrum1;
+            }
+
+            if (note != MidiNote.None)
+            {
+                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, 127, 0));
             }
         }
 
