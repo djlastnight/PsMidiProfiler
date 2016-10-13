@@ -7,6 +7,7 @@
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Helpers;
     using PsMidiProfiler.Models;
+    using radio42.Multimedia.Midi;
 
     /// <summary>
     /// Interaction logic for RealDrumsMonitor.xaml
@@ -204,38 +205,53 @@
         public void Highlight(ButtonName button, bool value)
         {
             Visibility result = Convert.ToVisibility(value);
+            var status = value ? MIDIStatus.NoteOn : MIDIStatus.NoteOff;
+            MidiNote note = MidiNote.None;
 
             if (button == ButtonName.Red)
             {
                 this.RedVisibility = result;
+                note = MidiNote.AcousticSnare;
             }
             else if (button == ButtonName.Yellow_Tom)
             {
                 this.YellowTomVisibility = result;
+                note = MidiNote.LowTom;
             }
             else if (button == ButtonName.Blue_Tom)
             {
                 this.BlueTomVisibility = result;
+                note = MidiNote.HighFloorTom;
             }
             else if (button == ButtonName.Green_Tom)
             {
                 this.GreenTomVisibility = result;
+                note = MidiNote.LowFloorTom;
             }
             else if (button == ButtonName.Yellow)
             {
                 this.YellowCymbalVisibility = result;
+                note = MidiNote.ClosedHiHat;
             }
             else if (button == ButtonName.Green)
             {
                 this.GreenCymbalVisibility = result;
+                note = MidiNote.CrashCymbal1;
             }
             else if (button == ButtonName.Blue)
             {
                 this.BlueCymbalVisibility = result;
+                note = MidiNote.RideCymbal2;
             }
             else if (button == ButtonName.Bass)
             {
                 this.BassVisibility = result;
+                note = MidiNote.BassDrum1;
+            }
+
+            if (note != MidiNote.None)
+            {
+                MidiModel.Send(new MidiShortMessage(status, 9, (byte)note, 127, 0));
             }
         }
 

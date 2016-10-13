@@ -35,6 +35,7 @@
             this.midi = new MidiModel();
             this.midi.MessageReceived += this.OnMidiMessageReceived;
             this.CurrentController = new Controller(ControllerType.FourLaneDrums, ControllerCategory.Drums);
+            this.IsAudioPreviewEnabled = true;
             this.WaitForNoteOff = true;
         }
 
@@ -47,6 +48,20 @@
             get
             {
                 return this.midi;
+            }
+        }
+
+        public bool IsAudioPreviewEnabled
+        {
+            get
+            {
+                return MidiModel.IsOutputEnabled;
+            }
+
+            set
+            {
+                MidiModel.IsOutputEnabled = value;
+                this.OnPropertyChanged("IsAudioPreviewEnabled");
             }
         }
 
