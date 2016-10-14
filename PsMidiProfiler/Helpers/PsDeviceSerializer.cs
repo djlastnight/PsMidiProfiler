@@ -47,7 +47,6 @@
                 return null;
             }
 
-
             error = "Midi profile creation failed - not all notes were set!";
 
             List<PsProfileButton> buttons = new List<PsProfileButton>();

@@ -1,16 +1,15 @@
 ﻿namespace PsMidiProfiler.Controls
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Controls;
     using System.Windows.Input;
     using PsMidiProfiler.Commands;
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
-    using System.Windows.Media;
 
     /// <summary>
     /// Interaction logic for CustomControllerMonitor.xaml
@@ -36,7 +35,7 @@
 
             this.CurrentDeviceType = (DeviceType)this.device.Type;
             this.monitorButtons = new List<MonitorButton>();
-            this.RemoveableButtons = new ObservableCollection<RemoveableMonitorButton>(); ;
+            this.RemoveableButtons = new ObservableCollection<RemoveableMonitorButton>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -141,7 +140,7 @@
             }
         }
 
-        void OnRemoveableMonitorButtonRemoved(object sender, EventArgs e)
+        private void OnRemoveableMonitorButtonRemoved(object sender, EventArgs e)
         {
             var removeableButton = sender as RemoveableMonitorButton;
             if (removeableButton == null)

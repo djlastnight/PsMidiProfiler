@@ -1,8 +1,5 @@
 ﻿namespace PsMidiProfiler.Controls
 {
-    using PsMidiProfiler.Commands;
-    using PsMidiProfiler.Enums;
-    using PsMidiProfiler.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -10,6 +7,9 @@
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using PsMidiProfiler.Commands;
+    using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Models;
 
     /// <summary>
     /// Interaction logic for RemoveableButton.xaml
@@ -99,7 +99,6 @@
             {
                 this.EdgeColor = this.hightlightColor;
             }
-
             else
             {
                 this.EdgeColor = this.defaultColor;
