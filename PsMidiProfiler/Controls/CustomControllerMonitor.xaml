@@ -4,13 +4,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
-             xmlns:Enums="clr-namespace:PsMidiProfiler.Enums"
+             xmlns:Controls="clr-namespace:PsMidiProfiler.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <ComboBox ItemsSource="{Binding ElementName=uc, Path=ButtonNames}"
-                  SelectedItem="{Binding ElementName=uc, Path=SelectedButtonName}"
-                  IsSynchronizedWithCurrentItem="True" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Label Content="Device type:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <ComboBox Height="25" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                          ItemsSource="{Binding ElementName=uc, Path=DeviceTypes}"
+                          SelectedItem="{Binding ElementName=uc, Path=CurrentDeviceType}"
+                          IsSynchronizedWithCurrentItem="True"/>
+                <Button Content="Add Button" Height="25" Margin="0,70,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                        Command="{Binding ElementName=uc, Path=AddButtonCommand}" />
+            </Grid>
+            <Grid Grid.Column="1">
+                <TextBlock Text="No buttons added" HorizontalAlignment="Center" TextAlignment="Center" FontStyle="Oblique"/>
+
+                <ItemsControl ItemsSource="{Binding ElementName=uc, Path=RemoveableButtons}"/>
+            </Grid>
+
+        </Grid>
     </ScrollViewer>
 </UserControl>

@@ -53,16 +53,6 @@
                     </ComboBox>
                     <CheckBox Margin="350,13,0,0" Content="Detect Note Off" IsChecked="{Binding WaitForNoteOff}"/>
                     <CheckBox Margin="350,33,0,0" Content="Enable Audio Preview" IsChecked="{Binding IsAudioPreviewEnabled}"/>
-                    <!--<Label Content="Detect Note Off" Margin="350,0,0,0" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox Margin="350,24,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"
-                          IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding WaitForNoteOff}"
-                          ItemsSource="{Binding Booleans}">
-                    </ComboBox>
-                    <Label Content="Enable Audio Preview" Margin="470,0,0,0" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox Margin="470,24,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"
-                          IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding IsAudioPreviewEnabled}"
-                          ItemsSource="{Binding Booleans}">
-                    </ComboBox>-->
                 </Grid>
             </Border>
             <Border Margin="10,0,10,10" Grid.Row="1" BorderBrush="Black" BorderThickness="1">

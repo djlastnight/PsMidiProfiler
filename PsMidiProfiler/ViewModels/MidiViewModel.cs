@@ -215,7 +215,7 @@
         private void OnGenerateProfileRequested(object obj)
         {
             string error;
-            string midiProfile = PsDeviceSerializer.Serialize(this.controllerMonitor.Device, out error);
+            string midiProfile = PsDeviceSerializer.Serialize(this.controllerMonitor, out error);
             if (this.ProfileGenerated != null)
             {
                 this.ProfileGenerated(this, new ProfileGeneratedEventArgs(midiProfile, error));

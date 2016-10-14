@@ -2,6 +2,7 @@
 {
     public enum ButtonName
     {
+        None = 0,
         Red,
         Yellow,
         Yellow_C,

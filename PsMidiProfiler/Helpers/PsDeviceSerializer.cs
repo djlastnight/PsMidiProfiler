@@ -12,9 +12,23 @@
 
     public static class PsDeviceSerializer
     {
-        public static string Serialize(PsDevice device, out string error)
+        public static string Serialize(IControllerMonitor monitor, out string error)
         {
-            if (device.ProfileButtons == null || device.ProfileButtons.Count == 0)
+            if (monitor == null)
+            {
+                throw new ArgumentNullException("monitor");
+            }
+
+            PsDevice device = monitor.Device;
+            if (monitor is IButtonHighlighter)
+            {
+                if (device.ProfileButtons == null || device.ProfileButtons.Count == 0)
+                {
+                    error = "Midi profile creation failed - no buttons!";
+                    return null;
+                }   
+            }
+            else
             {
                 var strB = new StringBuilder();
                 strB.AppendLine("<DEVICE>");
@@ -27,7 +41,15 @@
                 return strB.ToString();
             }
 
-            error = "Midi profile creation failed - not all buttons were set!";
+            if (device.ProfileButtons.Where(button => button.Name == ButtonName.None).Count() > 0)
+            {
+                error = "Midi profile creation failed - button name can not be 'None'!";
+                return null;
+            }
+
+
+            error = "Midi profile creation failed - not all notes were set!";
+
             List<PsProfileButton> buttons = new List<PsProfileButton>();
             buttons.AddRange(device.ProfileButtons);
 

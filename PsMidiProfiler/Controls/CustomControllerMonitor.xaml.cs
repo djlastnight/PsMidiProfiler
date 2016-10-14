@@ -10,6 +10,7 @@
     using PsMidiProfiler.Commands;
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
+    using System.Windows.Media;
 
     /// <summary>
     /// Interaction logic for CustomControllerMonitor.xaml
@@ -20,11 +21,9 @@
 
         private PsDevice device;
 
-        private ObservableCollection<MonitorButton> monitorButtons;
+        private List<MonitorButton> monitorButtons;
 
         private ICommand addButtonCommand;
-
-        private ICommand removeButtonCommand;
 
         private DeviceType currentDeviceType;
 
@@ -33,12 +32,14 @@
             this.InitializeComponent();
             this.controller = new Controller(ControllerType.CustomController, ControllerCategory.Custom);
             this.device = new PsDevice("Custom Controller Midi Profile", DeviceType.Gamepad);
-            this.monitorButtons = new ObservableCollection<MonitorButton>();
+            this.device.ProfileButtons = new List<PsProfileButton>();
+
+            this.CurrentDeviceType = (DeviceType)this.device.Type;
+            this.monitorButtons = new List<MonitorButton>();
+            this.RemoveableButtons = new ObservableCollection<RemoveableMonitorButton>(); ;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private ButtonName selectedButtonName;
 
         public Controller Controller
         {
@@ -59,10 +60,12 @@
 
             set
             {
-                this.monitorButtons = new ObservableCollection<MonitorButton>(value);
+                this.monitorButtons = new List<MonitorButton>(value);
                 this.OnPropertyChanged("MonitorButtons");
             }
         }
+
+        public ObservableCollection<RemoveableMonitorButton> RemoveableButtons { get; set; }
 
         public ICommand AddButtonCommand
         {
@@ -77,30 +80,11 @@
             }
         }
 
-        public ICommand RemoveButtonCommand
+        public IEnumerable<DeviceType> DeviceTypes
         {
             get
             {
-                if (this.removeButtonCommand == null)
-                {
-                    this.removeButtonCommand = new RelayCommand(this.RemoveButtonRequested);
-                }
-
-                return this.removeButtonCommand;
-            }
-        }
-
-        public ButtonName SelectedButtonName
-        {
-            get
-            {
-                return this.selectedButtonName;
-            }
-
-            set
-            {
-                this.selectedButtonName = value;
-                this.OnPropertyChanged("SelectedButtonName");
+                return Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>();
             }
         }
 
@@ -114,20 +98,39 @@
             set
             {
                 this.currentDeviceType = value;
+                this.device.Type = (int)value;
                 this.OnPropertyChanged("CurrentDeviceType");
-            }
-        }
-
-        public IEnumerable<ButtonName> ButtonNames
-        {
-            get
-            {
-                return Enum.GetValues(typeof(ButtonName)).Cast<ButtonName>();
             }
         }
 
         public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
         {
+            if (button == ButtonName.None)
+            {
+                return;
+            }
+
+            foreach (var removeableButton in this.RemoveableButtons)
+            {
+                if (removeableButton.MonitorButton.ProfileButton.Name == button)
+                {
+                    removeableButton.Highlight(isNoteOn);
+                }
+            }
+        }
+
+        private void AddButtonRequested(object obj)
+        {
+            var profileButton = new PsProfileButton(ButtonName.None, 0, 0, 0);
+            var monitorButton = new MonitorButton(profileButton);
+            var removeableButton = new RemoveableMonitorButton(monitorButton);
+            removeableButton.Removed += this.OnRemoveableMonitorButtonRemoved;
+
+            this.device.ProfileButtons.Add(profileButton);
+            this.monitorButtons.Add(monitorButton);
+            this.RemoveableButtons.Add(removeableButton);
+
+            this.OnPropertyChanged("RemoveableButtons");
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -138,14 +141,26 @@
             }
         }
 
-        private void AddButtonRequested(object obj)
+        void OnRemoveableMonitorButtonRemoved(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
-        }
+            var removeableButton = sender as RemoveableMonitorButton;
+            if (removeableButton == null)
+            {
+                return;
+            }
 
-        private void RemoveButtonRequested(object obj)
-        {
-            throw new NotImplementedException();
+            var profileButton = removeableButton.MonitorButton.ProfileButton;
+            var monitorButton = this.monitorButtons.FirstOrDefault(x => x.ProfileButton == profileButton);
+            if (monitorButton == null)
+            {
+                return;
+            }
+
+            this.device.ProfileButtons.Remove(profileButton);
+            this.monitorButtons.Remove(monitorButton);
+            this.RemoveableButtons.Remove(removeableButton);
+
+            this.OnPropertyChanged("RemoveableButtons");
         }
     }
 }

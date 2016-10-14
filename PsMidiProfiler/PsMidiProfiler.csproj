@@ -76,6 +76,9 @@
     <Compile Include="Controls\RealGuitarMonitor.xaml.cs">
       <DependentUpon>RealGuitarMonitor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RemoveableButton.xaml.cs">
+      <DependentUpon>RemoveableButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TwoOctaveKeysMonitor.xaml.cs">
       <DependentUpon>TwoOctaveKeysMonitor.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\RealGuitarMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RemoveableButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -312,6 +319,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\real_guitar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
