@@ -19,7 +19,8 @@
                     new Controller(ControllerType.RealDrumsCC4, ControllerCategory.Drums),
                     new Controller(ControllerType.FiveLaneKeys, ControllerCategory.Keys),
                     new Controller(ControllerType.TwoOctaveKeys, ControllerCategory.Keys),
-                    new Controller(ControllerType.RealGuitar, ControllerCategory.Guitars)
+                    new Controller(ControllerType.RealGuitar, ControllerCategory.Guitars),
+                    new Controller(ControllerType.CustomController, ControllerCategory.Custom)
                 };
 
             return controllers;
@@ -53,6 +54,9 @@
                     break;
                 case ControllerType.RealGuitar:
                     monitor = new RealGuitarMonitor();
+                    break;
+                case ControllerType.CustomController:
+                    monitor = new CustomControllerMonitor();
                     break;
                 default:
                     throw new NotImplementedException("Not implemented controller type: " + controller.Type);

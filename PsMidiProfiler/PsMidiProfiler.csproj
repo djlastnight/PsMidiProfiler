@@ -70,6 +70,9 @@
     <Compile Include="Behaviors\TextBoxBehavior.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Controls\CustomControllerMonitor.xaml.cs">
+      <DependentUpon>CustomControllerMonitor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RealGuitarMonitor.xaml.cs">
       <DependentUpon>RealGuitarMonitor.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
     </Compile>
     <Compile Include="Helpers\PsDeviceSerializer.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Page Include="Controls\CustomControllerMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RealGuitarMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -4,6 +4,7 @@
     {
         Drums,
         Keys,
-        Guitars
+        Guitars,
+        Custom
     }
 }
