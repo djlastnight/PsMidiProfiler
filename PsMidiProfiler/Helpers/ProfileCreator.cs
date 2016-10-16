@@ -159,7 +159,7 @@
                 sb.Replace("<METHOD>0</METHOD>", string.Empty);
             }
 
-            if (device.ProfileButtons.Count == 0)
+            if (buttonsAreInvalid)
             {
                 sb.Replace("<BUTTONS />", string.Empty);
             }
