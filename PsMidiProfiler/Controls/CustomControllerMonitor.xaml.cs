@@ -127,6 +127,7 @@
                 this.currentMethod = value;
                 this.device.Method = (int)value;
                 this.OnPropertyChanged("CurrentMethod");
+                this.OnPropertyChanged("AddButtonBorderColor");
             }
         }
 
@@ -134,6 +135,12 @@
         {
             get
             {
+                if (this.currentMethod == Method.GuitarSysEx ||
+                    this.currentMethod == Method.Piano)
+                {
+                    return Colors.Transparent;
+                }
+
                 if (this.RemoveableButtons == null || this.RemoveableButtons.Count == 0)
                 {
                     return Colors.Red;

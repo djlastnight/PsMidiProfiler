@@ -21,7 +21,7 @@
 
             PsDevice device = monitor.Device;
 
-            if ((device is IButtonHighlighter) == false)
+            if ((monitor is IButtonHighlighter) == false)
             {
                 var strBuilder = new StringBuilder();
                 strBuilder.AppendLine("<DEVICE>");
@@ -151,11 +151,19 @@
                 serializer.Serialize(writer, deviceToSerialize);
             }
 
-            string namespaceDefinition = " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"";
-            sb.Replace(namespaceDefinition, string.Empty);
             sb.Replace("<ProfileButton>", string.Empty);
             sb.Replace("</ProfileButton>", string.Empty);
-            sb.Replace("<METHOD>0</METHOD>", string.Empty);
+
+            if (device.Method == 0)
+            {
+                sb.Replace("<METHOD>0</METHOD>", string.Empty);
+            }
+
+            if (device.ProfileButtons.Count == 0)
+            {
+                sb.Replace("<BUTTONS />", string.Empty);
+            }
+
             var formatted = ProfileCreator.AutoFormatXml(sb.ToString());
 
             return new MidiProfile(formatted, null, MidiProfileErrorType.NoError);
