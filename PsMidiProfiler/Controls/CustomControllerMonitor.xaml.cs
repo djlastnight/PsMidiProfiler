@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using System.Windows.Media;
     using PsMidiProfiler.Commands;
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
@@ -26,6 +27,8 @@
 
         private DeviceType currentDeviceType;
 
+        private Method currentMethod;
+
         public CustomControllerMonitor()
         {
             this.InitializeComponent();
@@ -34,6 +37,8 @@
             this.device.ProfileButtons = new List<PsProfileButton>();
 
             this.CurrentDeviceType = (DeviceType)this.device.Type;
+            this.CurrentMethod = (Method)this.device.Method;
+
             this.monitorButtons = new List<MonitorButton>();
             this.RemoveableButtons = new ObservableCollection<RemoveableMonitorButton>();
         }
@@ -87,6 +92,14 @@
             }
         }
 
+        public IEnumerable<Method> Methods
+        {
+            get
+            {
+                return Enum.GetValues(typeof(Method)).Cast<Method>();
+            }
+        }
+
         public DeviceType CurrentDeviceType
         {
             get
@@ -99,6 +112,34 @@
                 this.currentDeviceType = value;
                 this.device.Type = (int)value;
                 this.OnPropertyChanged("CurrentDeviceType");
+            }
+        }
+
+        public Method CurrentMethod
+        {
+            get
+            {
+                return this.currentMethod;
+            }
+
+            set
+            {
+                this.currentMethod = value;
+                this.device.Method = (int)value;
+                this.OnPropertyChanged("CurrentMethod");
+            }
+        }
+
+        public Color AddButtonBorderColor
+        {
+            get
+            {
+                if (this.RemoveableButtons == null || this.RemoveableButtons.Count == 0)
+                {
+                    return Colors.Red;
+                }
+
+                return Colors.Transparent;
             }
         }
 
@@ -130,6 +171,7 @@
             this.RemoveableButtons.Add(removeableButton);
 
             this.OnPropertyChanged("RemoveableButtons");
+            this.OnPropertyChanged("AddButtonBorderColor");
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -160,6 +202,7 @@
             this.RemoveableButtons.Remove(removeableButton);
 
             this.OnPropertyChanged("RemoveableButtons");
+            this.OnPropertyChanged("AddButtonBorderColor");
         }
     }
 }

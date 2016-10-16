@@ -38,7 +38,7 @@
             buttons.Add(ButtonName.Blue);
             buttons.Add(ButtonName.Orange);
 
-            this.device = new PsDevice("Five Lane Keys Midi Profile", DeviceType.Keys);
+            this.device = new PsDevice("Five Lane Keys Midi Profile", DeviceType.Piano);
             this.device.ProfileButtons = new List<PsProfileButton>();
             this.monitorButtons = new List<MonitorButton>();
 

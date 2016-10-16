@@ -43,7 +43,7 @@
         public TwoOctaveKeysMonitor()
         {
             this.InitializeComponent();
-            this.device = new PsDevice("Two Octave Keys Midi Profile", DeviceType.Keys);
+            this.device = new PsDevice("Two Octave Keys Midi Profile", DeviceType.Piano);
 
             this.C3 = Visibility.Hidden;
             this.CSharp3 = Visibility.Hidden;

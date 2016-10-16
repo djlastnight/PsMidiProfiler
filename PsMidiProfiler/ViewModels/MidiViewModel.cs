@@ -112,7 +112,7 @@
         {
             get
             {
-                var controllers = Helpers.ControllersHelper.GetControllers();
+                var controllers = Helpers.ControllerHelper.GetControllers();
                 var list = new ListCollectionView(controllers);
                 list.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
                 return list;
@@ -129,7 +129,7 @@
             set
             {
                 this.controller = value;
-                this.controllerMonitor = Helpers.ControllersHelper.CreateMonitor(this.controller);
+                this.controllerMonitor = Helpers.ControllerHelper.CreateMonitor(this.controller);
 
                 if (this.controllerMonitor is IButtonHighlighter)
                 {
@@ -214,11 +214,17 @@
 
         private void OnGenerateProfileRequested(object obj)
         {
-            string error;
-            string midiProfile = PsDeviceSerializer.Serialize(this.controllerMonitor, out error);
+            bool checkButtons = true;
+
+            if (obj is bool)
+            {
+                checkButtons = (bool)obj;
+            }
+
+            var midiProfile = ProfileCreator.Create(this.controllerMonitor, checkButtons);
             if (this.ProfileGenerated != null)
             {
-                this.ProfileGenerated(this, new ProfileGeneratedEventArgs(midiProfile, error));
+                this.ProfileGenerated(this, new ProfileGeneratedEventArgs(midiProfile));
             }
         }
 

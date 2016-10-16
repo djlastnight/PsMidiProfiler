@@ -61,7 +61,7 @@
             buttons.Add(ButtonName.Bass);
 
             this.device = new PsDevice("Real Drums CC#4 Midi Profile", DeviceType.DrumsReal);
-            this.device.Method = (int)Method.CC4HiHat;
+            this.device.Method = (int)Method.DrumsCC4HiHat;
             this.device.ProfileButtons = new List<PsProfileButton>();
             this.monitorButtons = new List<MonitorButton>();
 

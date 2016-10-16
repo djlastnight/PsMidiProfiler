@@ -12,9 +12,16 @@
         Yellow_Tom,
         Blue,
         Blue_Tom,
-        Orange,
         Green,
         Green_Tom,
-        Bass
+        Orange,
+        Bass,
+        Rim,
+        Up,
+        Down,
+        Left,
+        Right,
+        Back,
+        Start
     }
 }

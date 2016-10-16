@@ -18,7 +18,7 @@
             this.InitializeComponent();
             this.controller = new Controller(ControllerType.RealGuitar, ControllerCategory.Guitars);
             this.device = new PsDevice("Sysex Based Real Guitar Midi Profile", DeviceType.GuitarReal);
-            this.device.Method = (int)Method.SysEx;
+            this.device.Method = (int)Method.GuitarSysEx;
         }
 
         public Controller Controller

@@ -6,7 +6,7 @@
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
 
-    public static class ControllersHelper
+    public static class ControllerHelper
     {
         public static List<Controller> GetControllers()
         {

@@ -10,17 +10,33 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="150" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
                 <Label Content="Device type:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ComboBox Height="25" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           ItemsSource="{Binding ElementName=uc, Path=DeviceTypes}"
                           SelectedItem="{Binding ElementName=uc, Path=CurrentDeviceType}"
                           IsSynchronizedWithCurrentItem="True"/>
-                <Button Content="Add Button" Height="25" Margin="0,70,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                
+                <Label Content="Method:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <ComboBox Height="25" Grid.Row="1" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                          ItemsSource="{Binding ElementName=uc, Path=Methods}"
+                          SelectedItem="{Binding ElementName=uc, Path=CurrentMethod}"
+                          IsSynchronizedWithCurrentItem="True"/>
+                <Border Grid.Row="2" BorderThickness="1.5">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" />
+                    </Border.BorderBrush>
+                    <Button Content="Add Button" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1"
                         Command="{Binding ElementName=uc, Path=AddButtonCommand}" />
+                </Border>
             </Grid>
             <Grid Grid.Column="1">
                 <TextBlock Text="No buttons added" HorizontalAlignment="Center" TextAlignment="Center" FontStyle="Oblique"/>

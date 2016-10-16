@@ -10,9 +10,9 @@
     using PsMidiProfiler.Enums;
     using PsMidiProfiler.Models;
 
-    public static class PsDeviceSerializer
+    public static class ProfileCreator
     {
-        public static string Serialize(IControllerMonitor monitor, out string error)
+        public static MidiProfile Create(IControllerMonitor monitor, bool checkForZeroOrNullButtons)
         {
             if (monitor == null)
             {
@@ -20,37 +20,48 @@
             }
 
             PsDevice device = monitor.Device;
-            if (monitor is IButtonHighlighter)
+
+            if ((device is IButtonHighlighter) == false)
             {
-                if (device.ProfileButtons == null || device.ProfileButtons.Count == 0)
+                var strBuilder = new StringBuilder();
+                strBuilder.AppendLine("<DEVICE>");
+                strBuilder.AppendFormat("\t<NAME>{0}</NAME>{1}", device.Name, Environment.NewLine);
+                strBuilder.AppendFormat("\t<DESCRIPTION>{0}</DESCRIPTION>{1}", device.Description, Environment.NewLine);
+                strBuilder.AppendFormat("\t<TYPE>{0}</TYPE>{1}", device.Type, Environment.NewLine);
+                if (device.Method != 0)
                 {
-                    error = "Midi profile creation failed - no buttons!";
-                    return null;
-                }   
+                    strBuilder.AppendFormat("\t<METHOD>{0}</METHOD>{1}", device.Method, Environment.NewLine);
+                }
+
+                strBuilder.Append("</DEVICE>");
+
+                return new MidiProfile(
+                    strBuilder.ToString(),
+                    null,
+                    MidiProfileErrorType.NoError);
             }
-            else
+
+            bool buttonsAreInvalid = device.ProfileButtons == null || device.ProfileButtons.Count == 0;
+
+            if (checkForZeroOrNullButtons && buttonsAreInvalid)
             {
-                var strB = new StringBuilder();
-                strB.AppendLine("<DEVICE>");
-                strB.AppendFormat("\t<NAME>{0}</NAME>{1}", device.Name, Environment.NewLine);
-                strB.AppendFormat("\t<DESCRIPTION>{0}</DESCRIPTION>{1}", device.Description, Environment.NewLine);
-                strB.AppendFormat("\t<TYPE>{0}</TYPE>{1}", device.Type, Environment.NewLine);
-                strB.AppendFormat("\t<METHOD>{0}</METHOD>{1}", device.Method, Environment.NewLine);
-                strB.Append("</DEVICE>");
-                error = null;
-                return strB.ToString();
+                return new MidiProfile(
+                    null,
+                    "Midi profile creation failed - no buttons!",
+                    MidiProfileErrorType.NoButtonsDefined);
             }
 
             if (device.ProfileButtons.Where(button => button.Name == ButtonName.None).Count() > 0)
             {
-                error = "Midi profile creation failed - button name can not be 'None'!";
-                return null;
+                return new MidiProfile(
+                    null,
+                    "Midi profile creation failed - button name can not be 'None'!",
+                    MidiProfileErrorType.NoneButtonNameDetected);
             }
 
-            error = "Midi profile creation failed - not all notes were set!";
+            string error = "Midi profile creation failed - not all notes were set!";
 
-            List<PsProfileButton> buttons = new List<PsProfileButton>();
-            buttons.AddRange(device.ProfileButtons);
+            var buttons = new List<PsProfileButton>(device.ProfileButtons);
 
             // checking bass buttons
             var invalidBassButtons = buttons.Where(
@@ -58,10 +69,11 @@
 
             if (invalidBassButtons.Count == 2)
             {
-                return null;
+                return new MidiProfile(null, error, MidiProfileErrorType.ZeroNoteDetected);
             }
             else if (invalidBassButtons.Count == 1)
             {
+                // allowing to set just one bass button. Removing the invalid one.
                 buttons.Remove(invalidBassButtons[0]);
             }
 
@@ -74,6 +86,7 @@
                 if (bass1.Note == bass2.Note &&
                     bass1.Channel == bass2.Channel)
                 {
+                    // both bass buttons has the same note. Removing this one, which has higher note off value.
                     var bassWithHigherNoteOffValue = bassButtons.OrderBy(x => x.NoteOffValue).Last();
                     buttons.Remove(bassWithHigherNoteOffValue);
                 }
@@ -83,7 +96,7 @@
             var invalidButtons = buttons.Where(button => button.Note == 0).ToList();
             if (invalidButtons.Count > 0)
             {
-                return null;
+                return new MidiProfile(null, error, MidiProfileErrorType.ZeroNoteDetected);
             }
 
             // checking for note duplications
@@ -112,7 +125,8 @@
             {
                 error = "Midi profile creation failed!\r\n\r\n";
                 error += builder.ToString();
-                return null;
+
+                return new MidiProfile(null, error, MidiProfileErrorType.NoteDuplicationsDetected);
             }
 
             var deviceToSerialize = new PsDevice();
@@ -141,10 +155,10 @@
             sb.Replace(namespaceDefinition, string.Empty);
             sb.Replace("<ProfileButton>", string.Empty);
             sb.Replace("</ProfileButton>", string.Empty);
-            var formatted = PsDeviceSerializer.AutoFormatXml(sb.ToString());
+            sb.Replace("<METHOD>0</METHOD>", string.Empty);
+            var formatted = ProfileCreator.AutoFormatXml(sb.ToString());
 
-            error = null;
-            return formatted;
+            return new MidiProfile(formatted, null, MidiProfileErrorType.NoError);
         }
 
         private static string AutoFormatXml(string xmlText)

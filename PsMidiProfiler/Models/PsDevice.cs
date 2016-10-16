@@ -13,7 +13,7 @@
         {
             this.Name = "Name not set";
             this.Description = "Generated using Phase Shift Midi Profiler by djlastnight";
-            this.Method = 1;
+            this.Method = 0;
             this.Type = 0;
         }
 

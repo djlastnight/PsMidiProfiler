@@ -1,32 +1,22 @@
 ﻿namespace PsMidiProfiler
 {
     using System;
+    using PsMidiProfiler.Models;
 
     public class ProfileGeneratedEventArgs : EventArgs
     {
-        private readonly string profileText;
+        private readonly MidiProfile profile;
 
-        private readonly string error;
-
-        public ProfileGeneratedEventArgs(string profileText, string error)
+        public ProfileGeneratedEventArgs(MidiProfile profile)
         {
-            this.profileText = profileText;
-            this.error = error;
+            this.profile = profile;
         }
 
-        public string ProfileText
+        public MidiProfile Profile
         {
             get
             {
-                return this.profileText;
-            }
-        }
-
-        public string Error
-        {
-            get
-            {
-                return this.error;
+                return this.profile;
             }
         }
     }

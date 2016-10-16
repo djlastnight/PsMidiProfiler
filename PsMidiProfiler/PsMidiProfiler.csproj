@@ -89,7 +89,7 @@
     <Compile Include="Converters\VelocityToBrushConverter.cs" />
     <Compile Include="Enums\HiHatState.cs" />
     <Compile Include="Enums\MidiNote.cs" />
-    <Compile Include="Helpers\ControllersHelper.cs" />
+    <Compile Include="Helpers\ControllerHelper.cs" />
     <Compile Include="IButtonHighlighter.cs" />
     <Compile Include="IHiHatPedalMonitor.cs" />
     <Compile Include="Controls\RealDrumsCC4Monitor.xaml.cs">
@@ -119,13 +119,15 @@
     <Compile Include="Models\Controller.cs" />
     <Compile Include="Enums\ControllerCategory.cs" />
     <Compile Include="Models\MidiModel.cs" />
+    <Compile Include="Models\MidiProfile.cs" />
+    <Compile Include="Enums\MidiProfileErrorType.cs" />
     <Compile Include="NoteDetectedEventArgs.cs" />
     <Compile Include="NoteDetectedEventHandler.cs" />
     <Compile Include="ProfileGeneratedEventArgs.cs" />
     <Compile Include="Controls\ProfilePreviewer.xaml.cs">
       <DependentUpon>ProfilePreviewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\PsDeviceSerializer.cs" />
+    <Compile Include="Helpers\ProfileCreator.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Page Include="Controls\CustomControllerMonitor.xaml">
       <SubType>Designer</SubType>
