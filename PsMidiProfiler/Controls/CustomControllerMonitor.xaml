@@ -7,43 +7,51 @@
              xmlns:Controls="clr-namespace:PsMidiProfiler.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <Label Content="Device type:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <ComboBox Height="25" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Content="Device type:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox Height="25" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           ItemsSource="{Binding ElementName=uc, Path=DeviceTypes}"
                           SelectedItem="{Binding ElementName=uc, Path=CurrentDeviceType}"
                           IsSynchronizedWithCurrentItem="True"/>
-                
-                <Label Content="Method:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <ComboBox Height="25" Grid.Row="1" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+        <TextBlock Text="{Binding ElementName=uc, Path=CurrentDeviceTypeDescription}" TextWrapping="WrapWithOverflow"
+                   Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Margin="10,25,10,0" FontStyle="Italic" />
+        <Label Content="Method:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox Height="25" Grid.Row="1" Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           ItemsSource="{Binding ElementName=uc, Path=Methods}"
                           SelectedItem="{Binding ElementName=uc, Path=CurrentMethod}"
                           IsSynchronizedWithCurrentItem="True"/>
-                <Border Grid.Row="2" BorderThickness="1.5">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" />
-                    </Border.BorderBrush>
-                    <Button Content="Add Button" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1"
+        <TextBlock Text="{Binding ElementName=uc, Path=CurrentMethodDescription}" TextWrapping="WrapWithOverflow"
+                   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="10,25,10,0" FontStyle="Italic" />
+        <Border Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="1.5" VerticalAlignment="Stretch">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" />
+            </Border.BorderBrush>
+            <Button Content="Add Button" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1"
                         Command="{Binding ElementName=uc, Path=AddButtonCommand}" />
-                </Border>
+        </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.ColumnSpan="2">
+            <Grid>
+                <ItemsControl ItemsSource="{Binding ElementName=uc, Path=RemoveableButtons}">
+                    <ItemsControl.Background>
+                        <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" Opacity="0.025"/>
+                    </ItemsControl.Background>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </Grid>
-            <Grid Grid.Column="1">
-                <TextBlock Text="No buttons added" HorizontalAlignment="Center" TextAlignment="Center" FontStyle="Oblique"/>
-
-                <ItemsControl ItemsSource="{Binding ElementName=uc, Path=RemoveableButtons}"/>
-            </Grid>
-
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

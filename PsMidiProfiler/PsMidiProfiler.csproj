@@ -90,6 +90,7 @@
     <Compile Include="Enums\HiHatState.cs" />
     <Compile Include="Enums\MidiNote.cs" />
     <Compile Include="Helpers\ControllerHelper.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="IButtonHighlighter.cs" />
     <Compile Include="IHiHatPedalMonitor.cs" />
     <Compile Include="Controls\RealDrumsCC4Monitor.xaml.cs">

@@ -112,6 +112,7 @@
                 this.currentDeviceType = value;
                 this.device.Type = (int)value;
                 this.OnPropertyChanged("CurrentDeviceType");
+                this.OnPropertyChanged("CurrentDeviceTypeDescription");
             }
         }
 
@@ -128,6 +129,25 @@
                 this.device.Method = (int)value;
                 this.OnPropertyChanged("CurrentMethod");
                 this.OnPropertyChanged("AddButtonBorderColor");
+                this.OnPropertyChanged("CurrentMethodDescription");
+            }
+        }
+
+        public string CurrentMethodDescription
+        {
+            get
+            {
+                var description = Helpers.Extensions.GetDescription(this.currentMethod);
+                return description;
+            }
+        }
+
+        public string CurrentDeviceTypeDescription
+        {
+            get
+            {
+                var description = Helpers.Extensions.GetDescription(this.currentDeviceType);
+                return description;
             }
         }
 
