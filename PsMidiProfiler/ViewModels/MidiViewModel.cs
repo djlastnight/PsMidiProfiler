@@ -137,7 +137,7 @@
                     foreach (var button in buttons)
                     {
                         button.Cleared += this.OnMonitorButtonCleared;
-                    }   
+                    }
                 }
 
                 this.ControllerMonitor = this.controllerMonitor;
@@ -231,60 +231,76 @@
         private void OnMidiMessageReceived(object sender, MidiMessageEventArgs e)
         {
             this.OnPropertyChanged("NoteHistory");
-            if (e.IsShortMessage)
+            if (!e.IsShortMessage)
+            {
+                return;
+            }
+
+            byte velocity = e.ShortMessage.Velocity;
+            bool isControlChange = e.ShortMessage.StatusType == MIDIStatus.ControlChange;
+            bool isPitchBend = e.ShortMessage.StatusType == MIDIStatus.PitchBend;
+            bool isNoteOn = e.ShortMessage.StatusType == MIDIStatus.NoteOn;
+            bool isNoteOff = e.ShortMessage.StatusType == MIDIStatus.NoteOff;
+
+            if (isControlChange && this.controllerMonitor is IHiHatPedalMonitor)
             {
                 byte controller = e.ShortMessage.Controller;
-                byte velocity = e.ShortMessage.Velocity;
                 bool isMSB = controller == 4;
                 bool isLSB = controller == 36;
 
-                if (this.controllerMonitor is IHiHatPedalMonitor)
+                if (isMSB || (isLSB && velocity == 0))
                 {
-                    if (isMSB || (isLSB && velocity == 0))
-                    {
-                        var pedalMonitor = this.controllerMonitor as IHiHatPedalMonitor;
-                        pedalMonitor.HiHatPedalVelocity = velocity;
-                        return;
-                    }
+                    var pedalMonitor = this.controllerMonitor as IHiHatPedalMonitor;
+                    pedalMonitor.HiHatPedalVelocity = velocity;
                 }
+            }
 
-                if (this.controllerMonitor is INoteHighlighter)
+            if (isPitchBend && this.controllerMonitor is IPitchBendMonitor)
+            {
+                var pitchMonitor = this.controllerMonitor as IPitchBendMonitor;
+                pitchMonitor.PitchWheelValue = (float)Math.Round((e.ShortMessage.PitchBend - 8192) / 8192.0f, 2);
+            }
+
+            if (!isNoteOn && !isNoteOff)
+            {
+                return;
+            }
+
+            if (this.controllerMonitor is INoteHighlighter)
+            {
+                var noteHighlighter = this.controllerMonitor as INoteHighlighter;
+                noteHighlighter.HighlightNote(
+                    e.ShortMessage.Note,
+                    isNoteOn,
+                    e.ShortMessage.Velocity);
+                return;
+            }
+
+            if (this.controllerMonitor is IButtonHighlighter)
+            {
+                var buttonHighlighter = this.controllerMonitor as IButtonHighlighter;
+                var buttons = buttonHighlighter.MonitorButtons.Where(
+                    button => button.ProfileButton.Note == e.ShortMessage.Note &&
+                        button.ProfileButton.Channel == e.ShortMessage.Channel);
+
+                foreach (var button in buttons)
                 {
-                    var noteHighlighter = this.controllerMonitor as INoteHighlighter;
-                    noteHighlighter.HighlightNote(
-                        e.ShortMessage.Note,
-                        e.ShortMessage.StatusType == MIDIStatus.NoteOn,
+                    buttonHighlighter.Highlight(
+                        button.ProfileButton.Name,
+                        isNoteOn,
                         e.ShortMessage.Velocity);
-                    return;
                 }
 
-                if (this.controllerMonitor is IButtonHighlighter)
+                if (isNoteOn && !this.WaitForNoteOff)
                 {
-                    var buttonHighlighter = this.controllerMonitor as IButtonHighlighter;
-                    var buttons = buttonHighlighter.MonitorButtons.Where(
-                        button => button.ProfileButton.Note == e.ShortMessage.Note &&
-                            button.ProfileButton.Channel == e.ShortMessage.Channel);
-
-                    bool shouldHightlight = e.ShortMessage.StatusType == MIDIStatus.NoteOn;
-                    foreach (var button in buttons)
+                    var task = Task.Run(async delegate
                     {
-                        buttonHighlighter.Highlight(
-                            button.ProfileButton.Name,
-                            shouldHightlight,
-                            e.ShortMessage.Velocity);
-                    }
-
-                    if (shouldHightlight && !this.WaitForNoteOff)
-                    {
-                        var task = Task.Run(async delegate
+                        await Task.Delay(MidiViewModel.UnhighlightDelayInMilliseconds);
+                        foreach (var button in buttons)
                         {
-                            await Task.Delay(MidiViewModel.UnhighlightDelayInMilliseconds);
-                            foreach (var button in buttons)
-                            {
-                                buttonHighlighter.Highlight(button.ProfileButton.Name, false, 0);
-                            }
-                        });
-                    }
+                            buttonHighlighter.Highlight(button.ProfileButton.Name, false, 0);
+                        }
+                    });
                 }
             }
         }

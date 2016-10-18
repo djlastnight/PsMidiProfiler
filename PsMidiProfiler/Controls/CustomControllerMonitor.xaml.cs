@@ -15,13 +15,17 @@
     /// <summary>
     /// Interaction logic for CustomControllerMonitor.xaml
     /// </summary>
-    public partial class CustomControllerMonitor : UserControl, IControllerMonitor, IButtonHighlighter, INotifyPropertyChanged
+    public partial class CustomControllerMonitor : UserControl, IControllerMonitor, IButtonHighlighter, IPitchBendMonitor, IHiHatPedalMonitor, INotifyPropertyChanged
     {
+        private const short PitchWheelCenterValue = 8192;
+
         private Controller controller;
 
         private PsDevice device;
 
         private List<MonitorButton> monitorButtons;
+
+        private float pitchWheelValue;
 
         private ICommand addButtonCommand;
 
@@ -44,6 +48,7 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private byte hiHatPedalVelocity;
 
         public Controller Controller
         {
@@ -66,6 +71,33 @@
             {
                 this.monitorButtons = new List<MonitorButton>(value);
                 this.OnPropertyChanged("MonitorButtons");
+            }
+        }
+
+        public float PitchWheelValue
+        {
+            get
+            {
+                return this.pitchWheelValue;
+            }
+
+            set
+            {
+                this.pitchWheelValue = value;
+                this.OnPropertyChanged("PitchWheelValue");
+            }
+        }
+
+        public byte HiHatPedalVelocity
+        {
+            get
+            {
+                return this.hiHatPedalVelocity;
+            }
+            set
+            {
+                this.hiHatPedalVelocity = value;
+                this.OnPropertyChanged("HiHatPedalVelocity");
             }
         }
 

@@ -15,7 +15,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="60" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="Device type:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -32,26 +33,30 @@
                           IsSynchronizedWithCurrentItem="True"/>
         <TextBlock Text="{Binding ElementName=uc, Path=CurrentMethodDescription}" TextWrapping="WrapWithOverflow"
                    Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="10,25,10,0" FontStyle="Italic" />
-        <Border Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="1.5" VerticalAlignment="Stretch">
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding ElementName=uc, Path=PitchWheelValue, StringFormat={}PitchWheel Value: {0}}" />
+            <TextBlock Text="{Binding ElementName=uc, Path=HiHatPedalVelocity, StringFormat= {}HiHat Pedal Value: {0}}" />
+        </StackPanel>
+        
+        <Border Grid.Row="3" Grid.ColumnSpan="2" BorderThickness="1.5" VerticalAlignment="Stretch">
             <Border.BorderBrush>
                 <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" />
             </Border.BorderBrush>
             <Button Content="Add Button" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1"
                         Command="{Binding ElementName=uc, Path=AddButtonCommand}" />
         </Border>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.ColumnSpan="2">
-            <Grid>
-                <ItemsControl ItemsSource="{Binding ElementName=uc, Path=RemoveableButtons}">
-                    <ItemsControl.Background>
-                        <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" Opacity="0.025"/>
-                    </ItemsControl.Background>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="4" Grid.ColumnSpan="2">
+            <ItemsControl ItemsSource="{Binding ElementName=uc, Path=RemoveableButtons}">
+                <ItemsControl.Background>
+                    <SolidColorBrush Color="{Binding ElementName=uc, Path=AddButtonBorderColor}" Opacity="0.025"/>
+                </ItemsControl.Background>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>

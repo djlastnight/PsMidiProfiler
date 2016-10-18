@@ -4,7 +4,7 @@
 
     public interface IControllerMonitor
     {
-        Controller Controller { get; }
+        //Controller Controller { get; }
 
         PsDevice Device { get; }
     }
