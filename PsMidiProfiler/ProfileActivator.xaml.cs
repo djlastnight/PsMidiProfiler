@@ -297,6 +297,8 @@
 
         private bool IniChangeValue(string iniPath, string tag, string value, Encoding encoding)
         {
+            System.Windows.MessageBox.Show("TODO: Insert the new value, if it does not exsist! Change the drum lane count, when profiling four or five lane drums!");
+
             if (!File.Exists(iniPath))
             {
                 return false;
