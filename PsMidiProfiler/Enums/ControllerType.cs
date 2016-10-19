@@ -9,6 +9,7 @@
         RealDrumsCC4,
         FiveLaneKeys,
         TwoOctaveKeys,
+        FiveFretGuitar,
         RealGuitar,
         CustomController
     }

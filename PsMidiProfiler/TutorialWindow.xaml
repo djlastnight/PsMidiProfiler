@@ -1,0 +1,61 @@
+﻿<Window x:Class="PsMidiProfiler.TutorialWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TutorialWindow" Height="400" Width="500">
+    <Grid>
+        <RichTextBox IsUndoEnabled="False" IsReadOnly="True" IsHitTestVisible="False"  >
+            <FlowDocument>
+                <List MarkerStyle="Decimal">
+                    <ListItem>
+                        <Paragraph>Copy the generated midi profile</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Open the Phase Shift folder (probably it is located here: C:\Program Files (x86)\Phase Shift</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Open settings subfolder</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Open midi_profiles.ini</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Paste the midi profile, which you copied at step 1.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Save midi_profiles.ini</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Run Phase Shift</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Hit F1 on your PC Keyboard to create a player.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Hit [Tab] on your PC Keyboard to popup the dropdown menu.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Navigate to your user name and hit F1.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Hit [Tab] on your PC Keyboard to popup the dropdown menu again.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Go to "Midi Link" option and hit F1 to choose it.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Navigate to your MIDI In Device and hit F1.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Navigate to the desired MIDI profile and hit F1.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>You should now see the dropdown menu again. Navigate to your username and hit F1. You should hear specific sound if everything is ok.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Play the game, using your new MIDI profile!</Paragraph>
+                    </ListItem>
+                </List>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>

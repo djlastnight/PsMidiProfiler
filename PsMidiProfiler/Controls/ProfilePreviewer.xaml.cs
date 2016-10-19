@@ -4,6 +4,7 @@
     using System.Windows;
     using System.Windows.Input;
     using PsMidiProfiler.Commands;
+    using PsMidiProfiler.ViewModels;
 
     /// <summary>
     /// Interaction logic for ProfilePreviewer.xaml
@@ -12,7 +13,9 @@
     {
         private string profileText;
 
-        private ICommand copyToClipboardCommand;
+        private ICommand tryActivateProfileCommand;
+
+        private ICommand showTutorialCommand;
 
         public ProfilePreviewer(string profileText)
             : this()
@@ -41,16 +44,29 @@
             }
         }
 
-        public ICommand CopyToClipboardCommand
+        public ICommand TryActivateProfileCommand
         {
             get
             {
-                if (this.copyToClipboardCommand == null)
+                if (this.tryActivateProfileCommand == null)
                 {
-                    this.copyToClipboardCommand = new RelayCommand(this.OnCopyToClipboardRequested);
+                    this.tryActivateProfileCommand = new RelayCommand(this.OnTryActivateProfileRequested);
                 }
 
-                return this.copyToClipboardCommand;
+                return this.tryActivateProfileCommand;
+            }
+        }
+
+        public ICommand ShowTutorialCommand
+        {
+            get
+            {
+                if (this.showTutorialCommand == null)
+                {
+                    this.showTutorialCommand = new RelayCommand(this.OnShowTutorialRequested);
+                }
+
+                return this.showTutorialCommand;
             }
         }
 
@@ -62,19 +78,27 @@
             }
         }
 
-        private void OnCopyToClipboardRequested(object obj)
+        private void OnTryActivateProfileRequested(object obj)
         {
-            if (this.profileText == null)
+            var activator = new ProfileActivator(this.profileText);
+            if (activator.GamePath == null)
             {
-                System.Windows.MessageBox.Show(
-                    "Copy to clipboard failed!",
-                    "Phase Shift Midi Profiler",
+                MessageBox.Show(
+                    "Failed to retrieve game folder!",
+                    "Phase Shift Profiler",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+
                 return;
             }
 
-            Clipboard.SetText(this.profileText);
+            activator.ShowDialog();
+        }
+
+        private void OnShowTutorialRequested(object obj)
+        {
+            var tutorialWindow = new TutorialWindow();
+            tutorialWindow.ShowDialog();
         }
     }
 }

@@ -25,14 +25,14 @@
             </Grid.RowDefinitions>
             <Border BorderBrush="Black" BorderThickness="0.2">
                 <Grid Background="LightBlue">
-                    <Label Content="Midi In Device" Margin="10,0,0,0"/>
+                    <Label Content="MIDI In Device" Margin="10,0,0,0"/>
                     <ComboBox Width="200" Height="25"
                           HorizontalAlignment="Left" VerticalAlignment="Top"
                           ItemsSource="{Binding MidiInDevices}" Margin="10,24,0,0"
                           IsSynchronizedWithCurrentItem="True"
                           SelectedItem="{Binding CurrentMidiInDevice}"
                           IsDropDownOpen="True"/>
-                    <Label Content="Instrument type" Margin="220,0,0,0"/>
+                    <Label Content="MIDI Instrument:" Margin="220,0,0,0"/>
                     <ComboBox Width="120" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="220,24,0,0"
                               ItemsSource="{Binding Controllers}" IsSynchronizedWithCurrentItem="True"
                               SelectedItem="{Binding CurrentController}">

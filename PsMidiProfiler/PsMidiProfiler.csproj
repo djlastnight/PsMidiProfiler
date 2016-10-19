@@ -73,6 +73,9 @@
     <Compile Include="Controls\CustomControllerMonitor.xaml.cs">
       <DependentUpon>CustomControllerMonitor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FiveFretGuitarMonitor.xaml.cs">
+      <DependentUpon>FiveFretGuitarMonitor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RealGuitarMonitor.xaml.cs">
       <DependentUpon>RealGuitarMonitor.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,9 @@
     <Compile Include="Enums\MidiProfileErrorType.cs" />
     <Compile Include="NoteDetectedEventArgs.cs" />
     <Compile Include="NoteDetectedEventHandler.cs" />
+    <Compile Include="ProfileActivator.xaml.cs">
+      <DependentUpon>ProfileActivator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProfileGeneratedEventArgs.cs" />
     <Compile Include="Controls\ProfilePreviewer.xaml.cs">
       <DependentUpon>ProfilePreviewer.xaml</DependentUpon>
@@ -132,6 +138,10 @@
     <Compile Include="Helpers\ProfileCreator.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Page Include="Controls\CustomControllerMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FiveFretGuitarMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -200,9 +210,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileActivator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TutorialWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="INoteHighlighter.cs" />
+    <Compile Include="TutorialWindow.xaml.cs">
+      <DependentUpon>TutorialWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\MidiViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -326,6 +347,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\5fret_guitar.png" />
+    <Resource Include="Images\5fret_guitar_back.png" />
+    <Resource Include="Images\5fret_guitar_blue.png" />
+    <Resource Include="Images\5fret_guitar_down.png" />
+    <Resource Include="Images\5fret_guitar_green.png" />
+    <Resource Include="Images\5fret_guitar_orange.png" />
+    <Resource Include="Images\5fret_guitar_red.png" />
+    <Resource Include="Images\5fret_guitar_start.png" />
+    <Resource Include="Images\5fret_guitar_up.png" />
+    <Resource Include="Images\5fret_guitar_yellow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

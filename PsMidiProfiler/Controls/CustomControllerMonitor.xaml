@@ -35,8 +35,8 @@
                    Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="10,25,10,0" FontStyle="Italic" />
 
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-            <TextBlock Text="{Binding ElementName=uc, Path=PitchWheelValue, StringFormat={}PitchWheel Value: {0}}" />
-            <TextBlock Text="{Binding ElementName=uc, Path=HiHatPedalVelocity, StringFormat= {}HiHat Pedal Value: {0}}" />
+            <TextBlock Text="{Binding ElementName=uc, Path=PitchWheelValue, StringFormat={}PitchWheel (Whammy) Value: {0}}" />
+            <TextBlock Text="{Binding ElementName=uc, Path=HiHatPedalVelocity, StringFormat= {}CC4 (HiHat Pedal) Value: {0}}" />
         </StackPanel>
         
         <Border Grid.Row="3" Grid.ColumnSpan="2" BorderThickness="1.5" VerticalAlignment="Stretch">

@@ -19,6 +19,7 @@
                     new Controller(ControllerType.RealDrumsCC4, ControllerCategory.Drums),
                     new Controller(ControllerType.FiveLaneKeys, ControllerCategory.Keys),
                     new Controller(ControllerType.TwoOctaveKeys, ControllerCategory.Keys),
+                    new Controller(ControllerType.FiveFretGuitar, ControllerCategory.Guitars),
                     new Controller(ControllerType.RealGuitar, ControllerCategory.Guitars),
                     new Controller(ControllerType.CustomController, ControllerCategory.Custom)
                 };
@@ -51,6 +52,9 @@
                     break;
                 case ControllerType.TwoOctaveKeys:
                     monitor = new TwoOctaveKeysMonitor();
+                    break;
+                case ControllerType.FiveFretGuitar:
+                    monitor = new FiveFretGuitarMonitor();
                     break;
                 case ControllerType.RealGuitar:
                     monitor = new RealGuitarMonitor();
