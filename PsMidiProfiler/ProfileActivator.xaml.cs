@@ -180,7 +180,7 @@
                     return null;
                 }
 
-                string[] lines = File.ReadAllLines(configFileLocation);
+                string[] lines = File.ReadAllLines(configFileLocation, Encoding.Unicode);
                 string line = lines.LastOrDefault(x => x.StartsWith("defaultprofile", StringComparison.OrdinalIgnoreCase));
                 if (line == null)
                 {
@@ -234,7 +234,6 @@
 
             List<string> lines = new List<string>();
             lines.AddRange(newLines);
-            lines.Add(Environment.NewLine);
             lines.AddRange(oldLines);
             try
             {
