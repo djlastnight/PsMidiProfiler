@@ -27,6 +27,8 @@
 
         private float pitchWheelValue;
 
+        private byte hihatPedalVelocity;
+
         private ICommand addButtonCommand;
 
         private DeviceType currentDeviceType;
@@ -48,7 +50,6 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private byte hiHatPedalVelocity;
 
         public Controller Controller
         {
@@ -92,11 +93,12 @@
         {
             get
             {
-                return this.hiHatPedalVelocity;
+                return this.hihatPedalVelocity;
             }
+
             set
             {
-                this.hiHatPedalVelocity = value;
+                this.hihatPedalVelocity = value;
                 this.OnPropertyChanged("HiHatPedalVelocity");
             }
         }

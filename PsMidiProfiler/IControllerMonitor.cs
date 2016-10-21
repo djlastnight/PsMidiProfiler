@@ -4,8 +4,6 @@
 
     public interface IControllerMonitor
     {
-        //Controller Controller { get; }
-
         PsDevice Device { get; }
     }
 }

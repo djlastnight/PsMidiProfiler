@@ -1,16 +1,16 @@
 ﻿namespace PsMidiProfiler
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
-    using System.Windows;
-    using Microsoft.Win32;
-    using PsMidiProfiler.ViewModels;
-    using System.Windows.Input;
-    using PsMidiProfiler.Commands;
     using System.Text;
-    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Input;
+    using Microsoft.Win32;
+    using PsMidiProfiler.Commands;
+    using PsMidiProfiler.ViewModels;
 
     /// <summary>
     /// Interaction logic for ProfileActivator.xaml
@@ -23,12 +23,6 @@
 
         private ICommand activateCommand;
 
-        private ProfileActivator()
-        {
-            this.InitializeComponent();
-            this.CurrentPsUserProfile = this.DefaultPsUserProfile;
-        }
-
         public ProfileActivator(string generatedProfile) 
             : this()
         {
@@ -38,6 +32,12 @@
             }
 
             this.generatedProfile = generatedProfile;
+        }
+
+        private ProfileActivator()
+        {
+            this.InitializeComponent();
+            this.CurrentPsUserProfile = this.DefaultPsUserProfile;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -325,7 +325,6 @@
             {
                 return false;
             }
-
 
             int index = lines.ToList().IndexOf(line);
             lines[index] = string.Format("{0} = \"{1}\"", tag, value);

@@ -1,12 +1,12 @@
 ﻿namespace PsMidiProfiler.Controls
 {
-    using PsMidiProfiler.Enums;
-    using PsMidiProfiler.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
+    using PsMidiProfiler.Enums;
+    using PsMidiProfiler.Models;
 
     /// <summary>
     /// Interaction logic for FiveFretGuitarMonitor.xaml
@@ -91,54 +91,13 @@
             get { return this.monitorButtons; }
         }
 
-        public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
-        {
-            var result = Helpers.Convert.ToVisibility(isNoteOn);
-
-            if (button == ButtonName.Green)
-            {
-                this.GreenVisibility = result;
-            }
-            else if (button == ButtonName.Red)
-            {
-                this.RedVisibility = result;
-            }
-            else if (button == ButtonName.Yellow)
-            {
-                this.YellowVisibility = result;
-            }
-            else if (button == ButtonName.Blue)
-            {
-                this.BlueVisibility = result;
-            }
-            else if (button == ButtonName.Orange)
-            {
-                this.OrangeVisibility = result;
-            }
-            else if (button == ButtonName.Up)
-            {
-                this.UpVisibility = result;
-            }
-            else if (button == ButtonName.Down)
-            {
-                this.DownVisibility = result;
-            }
-            else if (button == ButtonName.Start)
-            {
-                this.StartVisibility = result;
-            }
-            else if (button == ButtonName.Back)
-            {
-                this.BackVisibility = result;
-            }
-        }
-
         public float PitchWheelValue
         {
             get
             {
                 return this.pitchWheelValue;
             }
+
             set
             {
                 this.pitchWheelValue = (float)Math.Round((value + 1) / 2.0f, 2) * 100.0f;
@@ -269,6 +228,48 @@
             {
                 this.backVisibility = value;
                 this.OnPropertyChanged("BackVisibility");
+            }
+        }
+
+        public void Highlight(ButtonName button, bool isNoteOn, byte velocity)
+        {
+            var result = Helpers.Convert.ToVisibility(isNoteOn);
+
+            if (button == ButtonName.Green)
+            {
+                this.GreenVisibility = result;
+            }
+            else if (button == ButtonName.Red)
+            {
+                this.RedVisibility = result;
+            }
+            else if (button == ButtonName.Yellow)
+            {
+                this.YellowVisibility = result;
+            }
+            else if (button == ButtonName.Blue)
+            {
+                this.BlueVisibility = result;
+            }
+            else if (button == ButtonName.Orange)
+            {
+                this.OrangeVisibility = result;
+            }
+            else if (button == ButtonName.Up)
+            {
+                this.UpVisibility = result;
+            }
+            else if (button == ButtonName.Down)
+            {
+                this.DownVisibility = result;
+            }
+            else if (button == ButtonName.Start)
+            {
+                this.StartVisibility = result;
+            }
+            else if (button == ButtonName.Back)
+            {
+                this.BackVisibility = result;
             }
         }
 
