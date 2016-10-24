@@ -67,7 +67,7 @@
                 return;
             }
 
-            var previewer = new ProfilePreviewer(e.Profile.ProfileText);
+            var previewer = new ProfilePreviewer(this.viewModel.ControllerMonitor, e.Profile.ProfileText);
             previewer.ShowDialog();
         }
     }

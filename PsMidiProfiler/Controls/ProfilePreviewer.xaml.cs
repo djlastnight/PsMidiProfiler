@@ -11,15 +11,18 @@
     /// </summary>
     public partial class ProfilePreviewer : Window, INotifyPropertyChanged
     {
+        private readonly IControllerMonitor monitor;
+
         private string profileText;
 
         private ICommand tryActivateProfileCommand;
 
         private ICommand showTutorialCommand;
 
-        public ProfilePreviewer(string profileText)
+        public ProfilePreviewer(IControllerMonitor monitor, string profileText)
             : this()
         {
+            this.monitor = monitor;
             this.ProfileText = profileText;
         }
 
@@ -80,7 +83,7 @@
 
         private void OnTryActivateProfileRequested(object obj)
         {
-            var activator = new ProfileActivator(this.profileText);
+            var activator = new ProfileActivator(this.monitor, this.profileText);
             if (activator.GamePath == null)
             {
                 MessageBox.Show(

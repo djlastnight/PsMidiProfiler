@@ -12,32 +12,53 @@
     using PsMidiProfiler.Commands;
     using PsMidiProfiler.ViewModels;
 
-    /// <summary>
-    /// Interaction logic for ProfileActivator.xaml
-    /// </summary>
     public partial class ProfileActivator : Window, INotifyPropertyChanged
     {
+        private readonly int drumLaneCount;
+
         private string generatedProfile;
 
         private string currentPsUserProfile;
 
         private ICommand activateCommand;
 
-        public ProfileActivator(string generatedProfile) 
+        private string debugText;
+
+        public ProfileActivator(IControllerMonitor monitor, string generatedProfile) 
             : this()
         {
+            if (monitor == null)
+            {
+                throw new ArgumentNullException("monitor");
+            }
+
             if (generatedProfile == null)
             {
                 throw new ArgumentNullException("generatedProfile");
             }
 
             this.generatedProfile = generatedProfile;
+
+            if (monitor is Controls.FourLaneDrumsMonitor)
+            {
+                this.drumLaneCount = 4;
+            }
+            else if (monitor is Controls.FiveLaneDrumsMonitor)
+            {
+                this.drumLaneCount = 5;
+            }
+            else
+            {
+                this.drumLaneCount = 0;
+            }
         }
 
         private ProfileActivator()
         {
             this.InitializeComponent();
-            this.CurrentPsUserProfile = this.DefaultPsUserProfile;
+            var defaultProfile = this.DefaultPsUserProfile;
+            this.CurrentPsUserProfile = this.PsUserProfiles.Contains(defaultProfile) ? defaultProfile : null;
+            this.DebugText = string.Empty;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -208,6 +229,20 @@
             }
         }
 
+        public string DebugText
+        {
+            get
+            {
+                return this.debugText;
+            }
+
+            set
+            {
+                this.debugText = value + Environment.NewLine;
+                this.OnPropertyChanged("DebugText");
+            }
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -224,11 +259,120 @@
                 this.PsUserProfiles == null ||
                 this.CurrentPsUserProfile == null)
             {
-                MessageBox.Show("Failed to prepare the needed information!");
+                MessageBox.Show(
+                    "Failed to prepare the needed information! Please activate your midi profile manually!",
+                    "Phase Shift MIDI Profiler",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Stop);
+
                 return;
             }
 
-            // adding the profile to midi_profies.ini (ASCII encoding)
+            if (!this.ConfigureProfileForMidiLink())
+            {
+                return;
+            }
+
+            this.CreateBackup(Path.Combine(this.GamePath, "settings", "config.ini"));
+
+            if (!this.MakeCurrentProfileDefault())
+            {
+                this.UndoProfileChanges();
+                return;
+            }
+
+            if (!this.ChangeDrumLaneCount())
+            {
+                this.UndoProfileChanges();
+                this.UndoConfigChanges();
+                return;
+            }
+
+            if (!this.AddMidiProfile())
+            {
+                this.UndoProfileChanges();
+                this.UndoConfigChanges();
+                return;
+            }
+
+            MessageBox.Show(
+                "MIDI Profile Activated.\r\nYou may now start Phase Shift and hit F1 to start the midi link.\r\n" +
+                "After this use can your instrument. Have fun!");
+            this.Close();
+        }
+
+        private bool ConfigureProfileForMidiLink()
+        {
+            var profileFileLocation = Path.Combine(this.GamePath, "profiles", this.CurrentPsUserProfile + ".dat");
+
+            if (!this.CreateBackup(profileFileLocation))
+            {
+                this.DebugText += "Failed to create backup of selected profile!";
+                return false;
+            }
+
+            // Selecting the first midi profile (index 0)
+            bool profileSet = this.ChangeIniValue(profileFileLocation, "MIDILINKPROFILE", "0", Encoding.Unicode);
+
+            // Using the keyboard, which is device type 3 to create the link
+            bool typeSet = this.ChangeIniValue(profileFileLocation, "MIDILINKTYPE", "3", Encoding.Unicode);
+
+            // Enabling Auto Midi Link option
+            bool autoSet = this.ChangeIniValue(profileFileLocation, "AUTOMIDILINK", "1", Encoding.Unicode);
+
+            // Setting the MIDI In device name
+            bool deviceSet = this.ChangeIniValue(profileFileLocation, "MIDILINKNAME", this.CurrentMidiInDevice, Encoding.Unicode);
+
+            return profileSet && typeSet && autoSet && deviceSet;
+        }
+
+        private bool MakeCurrentProfileDefault()
+        {
+            if (this.CurrentPsUserProfile == this.DefaultPsUserProfile)
+            {
+                this.DebugText += string.Format("{0}'s profile is already the default profile.", this.currentPsUserProfile);
+                return true;
+            }
+
+            string configIniPath = Path.Combine(this.GamePath, "settings", "config.ini");
+
+            if (!this.CreateBackup(configIniPath))
+            {
+                this.DebugText += "Failed to create backup of config.ini";
+                return false;
+            }
+
+            return this.ChangeIniValue(
+                configIniPath,
+                "DEFAULTPROFILE",
+                string.Format("Profiles\\{0}.dat", this.CurrentPsUserProfile),
+                Encoding.Unicode);
+        }
+
+        private bool ChangeDrumLaneCount()
+        {
+            string configPath = Path.Combine(this.GamePath, "settings", "config.ini");
+            if (this.drumLaneCount == 4 || this.drumLaneCount == 5)
+            {
+                return this.ChangeIniValue(
+                    configPath,
+                    "KEYBOARDDRUMLANECOUNT",
+                    this.drumLaneCount.ToString(),
+                    Encoding.Unicode);
+            }
+
+            return true;
+        }
+
+        private bool AddMidiProfile()
+        {
+            if (!this.CreateBackup(this.MidiProfilesIniLocation))
+            {
+                this.DebugText += "Failed to create backup of midi_profiles.ini";
+                return false;
+            }
+
+            // midi_profiles.ini uses ASCII encoding
             var newLines = this.generatedProfile.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             var oldLines = File.ReadAllLines(this.MidiProfilesIniLocation, Encoding.ASCII);
 
@@ -241,88 +385,60 @@
             }
             catch (Exception)
             {
-                MessageBox.Show("Failed to write the requested profile!");
-                return;
-            }
-
-            if (!this.MakeCurrentProfileDefault())
-            {
-                MessageBox.Show("Failed to change the default profile!");
-                return;
-            }
-
-            if (!this.ConfigureProfileForMidiLink())
-            {
-                MessageBox.Show("Failed to configure the choosen profile!");
-                return;
-            }
-
-            MessageBox.Show("Successfully activated your midi profile.\r\nYou may now start Phase Shift and hit F1.");
-        }
-
-        private bool MakeCurrentProfileDefault()
-        {
-            if (this.CurrentPsUserProfile == this.DefaultPsUserProfile)
-            {
-                return true;
-            }
-
-            string configIniPath = Path.Combine(this.GamePath, "settings", "config.ini");
-
-            return this.IniChangeValue(
-                configIniPath,
-                "DEFAULTPROFILE",
-                string.Format("Profiles\\{0}.dat", this.CurrentPsUserProfile),
-                Encoding.Unicode);
-        }
-
-        private bool ConfigureProfileForMidiLink()
-        {
-            var datFileLocation = Path.Combine(this.GamePath, "profiles", this.CurrentPsUserProfile + ".dat");
-
-            // Selecting the first midi profile (index 0)
-            bool profileSet = this.IniChangeValue(datFileLocation, "MIDILINKPROFILE", "0", Encoding.Unicode);
-
-            // Using the keyboard, which is device type 3 to create the link
-            bool typeSet = this.IniChangeValue(datFileLocation, "MIDILINKTYPE", "3", Encoding.Unicode);
-
-            // Enabling Auto Midi Link option
-            bool autoSet = this.IniChangeValue(datFileLocation, "AUTOMIDILINK", "1", Encoding.Unicode);
-
-            // Setting the MIDI In device name
-            bool deviceSet = this.IniChangeValue(datFileLocation, "MIDILINKNAME", this.CurrentMidiInDevice, Encoding.Unicode);
-
-            return profileSet && typeSet && autoSet && deviceSet;
-        }
-
-        private bool IniChangeValue(string iniPath, string tag, string value, Encoding encoding)
-        {
-            System.Windows.MessageBox.Show("TODO: Insert the new value, if it does not exsist! Change the drum lane count, when profiling four or five lane drums!");
-
-            if (!File.Exists(iniPath))
-            {
+                this.DebugText += "Failed to write the requested profile to midi_profiles.ini!";
                 return false;
             }
 
+            this.DebugText += "Successfully added the requested profile to midi_profiles.ini";
+            return true;
+        }
+
+        private void UndoProfileChanges()
+        {
+            var originalPath = Path.Combine(this.GamePath, "profiles", this.currentPsUserProfile + ".dat");
+            var backupPath = Path.Combine(this.GamePath, "profiles", this.currentPsUserProfile + ".backup");
+
+            try
+            {
+                File.Copy(backupPath, originalPath, true);
+                File.Delete(backupPath);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void UndoConfigChanges()
+        {
+            string originalPath = Path.Combine(this.GamePath, "settings", "config.ini");
+            string backupPath = Path.Combine(this.GamePath, "settings", "config.backup");
+
+            try
+            {
+                File.Copy(backupPath, originalPath, true);
+                File.Delete(backupPath);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private bool ChangeIniValue(string iniPath, string tag, string value, Encoding encoding)
+        {
+            if (!File.Exists(iniPath))
+            {
+                this.DebugText += string.Format("Fatal Error: File not found: {0}", iniPath);
+                return false;
+            }
+
+            string fileName = Path.GetFileName(iniPath);
             string extension = Path.GetExtension(iniPath);
 
             var lines = File.ReadAllLines(iniPath, encoding);
             var line = lines.LastOrDefault(x => x.StartsWith(tag, StringComparison.OrdinalIgnoreCase));
             if (line == null || !line.Contains("="))
             {
-                return false;
-            }
-
-            try
-            {
-                // create backup
-                File.WriteAllLines(
-                    iniPath.Replace(extension, ".backup"),
-                    lines,
-                    encoding);
-            }
-            catch (Exception)
-            {
+                this.DebugText += string.Format("Failed to find {0} tag at {1}", tag, fileName);
                 return false;
             }
 
@@ -334,11 +450,30 @@
                 // set new profile
                 File.WriteAllLines(iniPath, lines, encoding);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                this.DebugText += string.Format("Failed to change {0} value. File {1}. Error: {2}", tag, fileName, ex.Message);
                 return false;
             }
 
+            this.DebugText += string.Format("Successfully changed {0} to {1}. [{2}].", tag, value, fileName);
+            return true;
+        }
+
+        private bool CreateBackup(string filePath)
+        {
+            try
+            {
+                string extension = Path.GetExtension(filePath);
+                File.Copy(filePath, filePath.Replace(extension, ".backup"), true);
+            }
+            catch (Exception ex)
+            {
+                this.DebugText += string.Format("Failed to create file backup: \"{0}\"", ex.Message);
+                return false;
+            }
+
+            this.DebugText += string.Format("Successfully created backup of \"{0}\"", Path.GetFileName(filePath));
             return true;
         }
     }

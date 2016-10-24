@@ -1,7 +1,8 @@
 ﻿<Window x:Class="PsMidiProfiler.TutorialWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="TutorialWindow" Height="400" Width="500">
+        Title="How to manually activate your midi profile" Height="400" Width="500"
+        ResizeMode="CanResizeWithGrip">
     <Grid>
         <RichTextBox IsUndoEnabled="False" IsReadOnly="True" IsHitTestVisible="False"  >
             <FlowDocument>
