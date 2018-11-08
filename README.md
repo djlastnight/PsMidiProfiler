@@ -1,6 +1,8 @@
 # Support me on Patreon
 <a href="https://www.patreon.com/djlastnight" style="font-size:50px">
   <img src="https://c5.patreon.com/external/logo/rebrandLogoIconMark@2x.png"
+       target="_blank"
+       rel="noopener noreferrer"
        height="40"
        style="vertical-align:top" />
   Click here to become a patron and get your reward!
